@@ -507,7 +507,7 @@ class FaceDesign(unittest.TestCase):
         self.assertGreaterEqual(len(done), 2)                       # bouncing happy frames
         for px, _ in done:
             self.assertIn((0, 255, 156), px)                        # green pupil: success
-            self.assertTrue(any(px[y * 16 + x] == (255, 255, 255) for y in (6, 7, 8) for x in range(4, 12)))  # white grin band (bounces rows)
+            self.assertTrue(any(px[y * 16 + x] == (255, 255, 255) for y in (10, 11, 12) for x in range(4, 12)))  # white grin band (bounces rows)
 
     def test_party_has_confetti_pupils_and_grin(self):
         party = faces.FACES["party"]

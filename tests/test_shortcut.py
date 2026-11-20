@@ -61,9 +61,8 @@ class Icon(unittest.TestCase):
         self.assertEqual(rows[h - 1][w - 1][3], 0)
         eye = rows[5 * 16 + 8][4 * 16 + 8]                  # the face's left eye pupil, at 16x scale
         self.assertEqual(eye, (0, 229, 255, 255))           # ZERO's cyan pupil: opaque, not a hole
-        body = rows[8 * 16 + 8][8 * 16 + 8]
-        self.assertEqual(body[3], 255)
-        self.assertGreater(body[0], 200)                    # Claude orange
+        mouth = rows[12 * 16 + 8][8 * 16 + 8]               # ZERO mouth band, at 16x scale
+        self.assertEqual(mouth, (255, 255, 255, 255))       # white and opaque
 
     def test_write_icon_creates_the_file(self):
         path = icon.write_icon(Path(tempfile.mkdtemp()) / "sub" / "x.ico")

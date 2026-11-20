@@ -216,7 +216,7 @@ class RealApp(unittest.TestCase):
         out = self.powershell(
             "Add-Type -AssemblyName System.Drawing; "
             f"$b=[System.Drawing.Icon]::ExtractAssociatedIcon('{self.exe}').ToBitmap(); "
-            "$p=$b.GetPixel([int]($b.Width/2),[int]($b.Height/2)); $c=$b.GetPixel(0,0); "
+            "$p=$b.GetPixel([int]($b.Width/2),[int]($b.Height*12/16)); $c=$b.GetPixel(0,0); "
             "'{0},{1},{2},{3}' -f $p.R,$p.G,$p.B,$c.A")
         self.assertEqual(out, "255,255,255,0")  # ZERO white mouth pixel in the middle, transparent in the corner
 
