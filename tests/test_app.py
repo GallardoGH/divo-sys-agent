@@ -218,7 +218,7 @@ class RealApp(unittest.TestCase):
             f"$b=[System.Drawing.Icon]::ExtractAssociatedIcon('{self.exe}').ToBitmap(); "
             "$p=$b.GetPixel([int]($b.Width/2),[int]($b.Height/2)); $c=$b.GetPixel(0,0); "
             "'{0},{1},{2},{3}' -f $p.R,$p.G,$p.B,$c.A")
-        self.assertEqual(out, "255,96,24,0")  # Claude orange in the middle, transparent in the corner
+        self.assertEqual(out, "255,255,255,0")  # ZERO white mouth pixel in the middle, transparent in the corner
 
     def test_the_program_runs_from_inside_the_file(self):
         from divosys import __version__

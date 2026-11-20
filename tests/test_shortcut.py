@@ -59,8 +59,8 @@ class Icon(unittest.TestCase):
         w, h, rows = decode_png(self.data[self.entries[-1][7]:self.entries[-1][7] + self.entries[-1][6]])
         self.assertEqual(rows[0][0][3], 0)                 # a corner shows the desktop through
         self.assertEqual(rows[h - 1][w - 1][3], 0)
-        eye = rows[5 * 16 + 8][4 * 16 + 8]                  # the face's left eye, at 16x scale
-        self.assertEqual(eye, (0, 0, 0, 255))               # inside the face, so opaque black, not a hole
+        eye = rows[5 * 16 + 8][4 * 16 + 8]                  # the face's left eye pupil, at 16x scale
+        self.assertEqual(eye, (0, 229, 255, 255))           # ZERO's cyan pupil: opaque, not a hole
         body = rows[8 * 16 + 8][8 * 16 + 8]
         self.assertEqual(body[3], 255)
         self.assertGreater(body[0], 200)                    # Claude orange

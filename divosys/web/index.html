@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -132,39 +132,39 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
   <div class="now">
     <canvas id="miniScreen" class="led" aria-hidden="true"></canvas>
     <div class="txt">
-      <div class="label" id="nowLabel">Connecting</div>
-      <div class="muted" style="font-size:13px"><span class="dot" id="connDot"></span><span id="connText">Looking for the speaker</span></div>
+      <div class="label" id="nowLabel">Conectando</div>
+      <div class="muted" style="font-size:13px"><span class="dot" id="connDot"></span><span id="connText">Buscando el altavoz</span></div>
     </div>
   </div>
   <div class="quick">
     <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="claudeSwitch"><span></span></span> Claude control</label>
     <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="pinSwitch"><span></span></span> Pin display</label>
-    <button class="btn" id="themeBtn" aria-label="Switch light or dark theme">Theme</button>
+    <button class="btn" id="themeBtn" aria-label="Switch light or dark theme">Tema</button>
   </div>
 </header>
 
 <div class="shell">
   <nav aria-label="Sections" id="nav">
-    <button data-tab="dash">Dashboard</button>
-    <button data-tab="live">Live status</button>
+    <button data-tab="dash">Panel</button>
+    <button data-tab="live">Estado en vivo</button>
     <button data-tab="claude">Claude</button>
-    <button data-tab="faces">Faces and text</button>
-    <button data-tab="modes">Speaker modes</button>
-    <button data-tab="apps">Timers and meters</button>
-    <button data-tab="monitors">Monitors and weather</button>
-    <button data-tab="schedule">Schedule</button>
-    <button data-tab="settings">Settings</button>
+    <button data-tab="faces">Caras y texto</button>
+    <button data-tab="modes">Modos del altavoz</button>
+    <button data-tab="apps">Temporizadores y medidores</button>
+    <button data-tab="monitors">Vigilancia y tiempo</button>
+    <button data-tab="schedule">Horario</button>
+    <button data-tab="settings">Ajustes</button>
   </nav>
 
   <main>
     <!-- DASHBOARD -->
     <section id="tab-dash">
-      <h2>Dashboard</h2>
-      <div class="card banner" id="heldBanner" hidden><div class="row between"><span id="heldText"></span><button class="btn primary" id="resumeBtn">Resume live status</button></div></div>
+      <h2>Panel</h2>
+      <div class="card banner" id="heldBanner" hidden><div class="row between"><span id="heldText"></span><button class="btn primary" id="resumeBtn">Reanudar estado en vivo</button></div></div>
       <p class="muted" id="sessionSummary"></p>
       <div class="grid">
         <div class="card">
-          <h3>On the speaker now</h3>
+          <h3>En la pantalla ahora</h3>
           <div class="row" style="align-items:flex-start">
             <canvas id="bigScreen" class="led" aria-label="Live copy of the speaker screen"></canvas>
             <div class="stack" style="flex:1; min-width:180px">
@@ -175,249 +175,249 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
           </div>
         </div>
         <div class="card">
-          <h3>Brightness</h3>
-          <input type="range" id="brightness" min="0" max="100" step="5" aria-label="Brightness">
+          <h3>Brillo</h3>
+          <input type="range" id="brightness" min="0" max="100" step="5" aria-label="Brillo">
           <div class="row between"><span class="muted" id="brightText"></span><span class="mono" id="brightVal"></span></div>
-          <h3 style="margin-top:var(--s4)">Quick faces</h3>
+          <h3 style="margin-top:var(--s4)">Caras rapidas</h3>
           <div class="mini-grid" id="quickFaces"></div>
         </div>
       </div>
       <div class="card">
-        <h3>Activity</h3>
-        <p class="muted" style="font-size:13px">Everything that changed the screen, and anything Claude tried that your settings blocked.</p>
+        <h3>Actividad</h3>
+        <p class="muted" style="font-size:13px">Todo lo que cambio la pantalla, y lo que Claude intento y tus ajustes bloquearon.</p>
         <ul class="log" id="log"></ul>
       </div>
     </section>
 
     <!-- LIVE STATUS -->
     <section id="tab-live" hidden>
-      <h2>Live status</h2>
-      <p class="muted">How the speaker shows what your Claude Code sessions are doing. It follows the hooks on its own.</p>
-      <div class="card"><div class="row between"><h3 style="margin:0">Sessions</h3><button class="btn" id="resumeBtn2">Resume live status</button></div>
+      <h2>Estado en vivo</h2>
+      <p class="muted">Como muestra el altavoz lo que hacen tus sesiones de Claude Code. Sigue a los hooks el solo.</p>
+      <div class="card"><div class="row between"><h3 style="margin:0">Sesiones</h3><button class="btn" id="resumeBtn2">Reanudar estado en vivo</button></div>
         <div id="sessionList"></div></div>
-      <div class="card" id="ciCard" hidden><div class="row between"><div><h3 style="margin-bottom:var(--s1)">Build after your last push</h3><div id="ciText"></div></div><button class="btn" id="ciDismiss">Dismiss</button></div></div>
+      <div class="card" id="ciCard" hidden><div class="row between"><div><h3 style="margin-bottom:var(--s1)">Build tras tu ultimo push</h3><div id="ciText"></div></div><button class="btn" id="ciDismiss">Descartar</button></div></div>
       <div class="grid">
-        <div class="card stack"><h3>What it shows</h3>
-          <label class="field">When several sessions are open<select data-set="scene.mode"><option value="auto">A board: one small face per session, up to four</option><option value="single">Only the busiest session</option></select></label>
-          <div class="setting"><div class="what"><b>Tool pictures</b><small>The face alternates with a big picture of the tool in use.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.glyphs" aria-label="Tool pictures"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Activity heartbeat</b><small>A strip along the bottom: a spark for each tool call.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.heartbeat" aria-label="Activity heartbeat"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Sub-agent dots</b><small>One dot along the top for each running sub-agent.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.agent_dots" aria-label="Sub-agent dots"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Build dot</b><small>A corner square that follows the GitHub Actions run after a push.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.ci_dot" aria-label="Build dot"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Reactions</b><small>Confetti and a glitch when a tool fails. Off also hides test results.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.reactions" aria-label="Reactions"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Test results</b><small>A big pass count over a green and red bar for a few seconds after Claude runs your tests. Off shows confetti or a glitch instead.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.test_results" aria-label="Test results"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Elapsed clock</b><small>Minutes over seconds since you sent the prompt, shown in the cycle after 20 seconds of work.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.elapsed_clock" aria-label="Elapsed clock"><span></span></label></div>
+        <div class="card stack"><h3>Que muestra</h3>
+          <label class="field">Cuando hay varias sesiones abiertas<select data-set="scene.mode"><option value="auto">Un tablero: una cara pequena por sesion, hasta cuatro</option><option value="single">Solo la sesion mas ocupada</option></select></label>
+          <div class="setting"><div class="what"><b>Iconos de herramientas</b><small>La cara alterna con un dibujo grande de la herramienta en uso.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.glyphs" aria-label="Iconos de herramientas"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Latido de actividad</b><small>Una franja abajo: un chispazo por cada llamada a herramienta.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.heartbeat" aria-label="Latido de actividad"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Puntos de sub-agentes</b><small>Un punto arriba por cada sub-agente en marcha.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.agent_dots" aria-label="Puntos de sub-agentes"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Punto de build</b><small>Un cuadrado en la esquina que sigue la ejecucion de GitHub Actions tras un push.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.ci_dot" aria-label="Punto de build"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Reacciones</b><small>Confeti y un glitch cuando una herramienta falla. Apagado oculta tambien los resultados de tests.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.reactions" aria-label="Reacciones"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Resultados de tests</b><small>Un numero grande de tests superados sobre una barra verde y roja unos segundos despues de que Claude ejecute tus tests. Apagado muestra confeti o glitch en su lugar.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.test_results" aria-label="Resultados de tests"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Reloj de tiempo pasado</b><small>Minutos sobre segundos desde que enviaste el prompt, mostrado en el ciclo tras 20 segundos de trabajo.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.elapsed_clock" aria-label="Reloj de tiempo pasado"><span></span></label></div>
         </div>
-        <div class="card stack"><h3>Timing</h3>
-          <label class="field">Start sweating after a task runs this long (seconds)<input type="number" min="30" max="3600" data-set="scene.sweat_after_s"></label>
-          <label class="field">A face you or Claude picks stays this long before live status returns (seconds)<input type="number" min="0" max="600" data-set="scene.hold_seconds"></label>
+        <div class="card stack"><h3>Tiempos</h3>
+          <label class="field">Empezar a sudar cuando una tarea lleva este tiempo (segundos)<input type="number" min="30" max="3600" data-set="scene.sweat_after_s"></label>
+          <label class="field">Una cara que tu o Claude elijais permanece este tiempo antes de volver al estado en vivo (segundos)<input type="number" min="0" max="600" data-set="scene.hold_seconds"></label>
         </div>
       </div>
-      <div class="card"><h3>Tool pictures</h3><p class="muted small">Switch one off and that tool shows the face only. The Tool pictures switch above turns them all off.</p><div class="faces" id="glyphGallery"></div></div>
-      <div class="card"><h3>Reading the screen</h3>
+      <div class="card"><h3>Iconos de herramientas</h3><p class="muted small">Si apagas una, esa herramienta muestra solo la cara. El interruptor de Iconos de herramientas de arriba las apaga todas.</p><div class="faces" id="glyphGallery"></div></div>
+      <div class="card"><h3>Leyendo la pantalla</h3>
         <ul class="tips muted">
-          <li><b>Strip along the bottom:</b> activity heartbeat. One column per 5 seconds, a spark for each tool call, so you can see a busy or stalled session from across the room.</li>
-          <li><b>Dots along the top left:</b> running sub-agents.</li>
-          <li><b>Square in the top right:</b> the build after a push. Amber blinking is running, green passed, red failed.</li>
-          <li><b>Sweat drops:</b> the task has been running a long time.</li>
-          <li><b>Hopping and waving, with yellow sparkles:</b> Claude is waiting on you. It breaks through a clock or timer for a few seconds, then goes back.</li>
-          <li><b>Confetti:</b> a push went through or tests ran. <b>A big number over a bar:</b> test results. <b>Glitch:</b> a tool failed.</li>
-          <li><b>Board:</b> each small face has a coloured stripe on top that matches the colour in the session list above.</li>
+          <li><b>Franja inferior:</b> activity heartbeat. One column per 5 seconds, a spark for each tool call, so you can see a busy or stalled session from across the room.</li>
+          <li><b>Puntos arriba a la izquierda:</b> running sub-agents.</li>
+          <li><b>Cuadrado arriba a la derecha:</b> the build after a push. Amber blinking is running, green passed, red failed.</li>
+          <li><b>Gotas de sudor:</b> the task has been running a long time.</li>
+          <li><b>Saltando y saludando, con destellos amarillos:</b> Claude is waiting on you. It breaks through a clock or timer for a few seconds, then goes back.</li>
+          <li><b>Confeti:</b> salio un push o se ejecutaron tests. <b>Un numero grande sobre una barra:</b> resultados de tests. <b>Glitch:</b> a tool failed.</li>
+          <li><b>Tablero:</b> each small face has a coloured stripe on top that matches the colour in the session list above.</li>
         </ul></div>
     </section>
 
     <!-- CLAUDE -->
     <section id="tab-claude" hidden>
-      <h2>What Claude may do</h2>
-      <p class="muted">These rules apply to Claude's tools and to the automatic status hooks. Your own clicks in this panel are never limited. A blocked request shows up in Activity, and Claude is told why.</p>
+      <h2>Que puede hacer Claude</h2>
+      <p class="muted">Estas reglas se aplican a las herramientas de Claude y a los hooks automaticos de estado. Tus clics en este panel nunca se limitan. Una peticion bloqueada aparece en Actividad, y Claude recibe el motivo.</p>
       <div class="card">
-        <div class="setting"><div class="what"><b>Claude control</b><small>Master switch. Off means Claude and the hooks cannot touch the screen at all.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.enabled" aria-label="Claude control"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Automatic status faces</b><small>Faces that follow what Claude Code is doing (thinking, working, done, needs you). No tool call needed.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.hooks" aria-label="Automatic status faces"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Claude may override a pinned display</b><small>Normally pinning blocks Claude completely.</small></div>
+        <div class="setting"><div class="what"><b>Control de Claude</b><small>Interruptor general. Apagado significa que Claude y los hooks no pueden tocar la pantalla para nada.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="claude.enabled" aria-label="Control de Claude"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Caras automaticas de estado</b><small>Caras que siguen lo que hace Claude Code (pensando, trabajando, hecho, te necesita). Sin llamar a ninguna herramienta.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="claude.hooks" aria-label="Caras automaticas de estado"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Claude puede ignorar una pantalla fijada</b><small>Normalmente fijar bloquea a Claude por completo.</small></div>
           <label class="switch"><input type="checkbox" role="switch" data-set="claude.override_pin" aria-label="Override pin"><span></span></label></div>
       </div>
-      <div class="card"><h3>Tools Claude can call</h3><div id="toolList"></div></div>
-      <div class="card"><h3>Faces Claude can show</h3>
-        <p class="muted" style="font-size:13px">Switch a face off and Claude can no longer show it (the hooks skip it too).</p>
+      <div class="card"><h3>Herramientas que Claude puede llamar</h3><div id="toolList"></div></div>
+      <div class="card"><h3>Caras que Claude puede mostrar</h3>
+        <p class="muted" style="font-size:13px">Apaga una cara y Claude ya no podra mostrarla (los hooks tambien la saltan).</p>
         <div class="faces" id="moodToggles"></div></div>
       <div class="grid">
-        <div class="card stack"><h3>Limits</h3>
-          <label class="field">Minimum seconds between Claude's changes<input type="number" min="0" max="60" step="0.5" data-set="claude.min_interval_s"></label>
-          <label class="field">Longest scrolling message (characters)<input type="number" min="1" max="60" data-set="claude.max_text_chars"></label>
-          <div class="row"><label class="field">Dimmest Claude can set<input type="number" min="0" max="100" data-set="claude.brightness_min"></label>
-            <label class="field">Brightest Claude can set<input type="number" min="0" max="100" data-set="claude.brightness_max"></label></div>
+        <div class="card stack"><h3>Limites</h3>
+          <label class="field">Segundos minimos entre los cambios de Claude<input type="number" min="0" max="60" step="0.5" data-set="claude.min_interval_s"></label>
+          <label class="field">Mensaje con scroll mas largo (caracteres)<input type="number" min="1" max="60" data-set="claude.max_text_chars"></label>
+          <div class="row"><label class="field">Brillo minimo que Claude puede poner<input type="number" min="0" max="100" data-set="claude.brightness_min"></label>
+            <label class="field">Brillo maximo que Claude puede poner<input type="number" min="0" max="100" data-set="claude.brightness_max"></label></div>
         </div>
-        <div class="card stack"><h3>Quiet hours</h3>
-          <div class="setting" style="border:0;padding:0"><div class="what"><b>Block Claude during these hours</b><small>The screen keeps whatever it shows.</small></div>
-            <label class="switch"><input type="checkbox" role="switch" data-set="claude.quiet_hours.enabled" aria-label="Quiet hours"><span></span></label></div>
-          <div class="row"><label class="field">From<input type="time" data-set="claude.quiet_hours.start"></label>
-            <label class="field">Until<input type="time" data-set="claude.quiet_hours.end"></label></div>
+        <div class="card stack"><h3>Horas tranquilas</h3>
+          <div class="setting" style="border:0;padding:0"><div class="what"><b>Bloquear a Claude en estas horas</b><small>La pantalla conserva lo que este mostrando.</small></div>
+            <label class="switch"><input type="checkbox" role="switch" data-set="claude.quiet_hours.enabled" aria-label="Horas tranquilas"><span></span></label></div>
+          <div class="row"><label class="field">Desde<input type="time" data-set="claude.quiet_hours.start"></label>
+            <label class="field">Hasta<input type="time" data-set="claude.quiet_hours.end"></label></div>
         </div>
       </div>
     </section>
 
     <!-- FACES AND TEXT -->
     <section id="tab-faces" hidden>
-      <h2>Faces and text</h2>
-      <div class="card"><h3>Claude's faces</h3><p class="muted" style="font-size:13px">Click one to show it on the speaker.</p><div class="faces" id="faceGallery"></div></div>
-      <div class="card stack"><h3>Scrolling message</h3>
+      <h2>Caras y texto</h2>
+      <div class="card"><h3>Caras de Claude</h3><p class="muted" style="font-size:13px">Pulsa una para mostrarla en el altavoz.</p><div class="faces" id="faceGallery"></div></div>
+      <div class="card stack"><h3>Mensaje con scroll</h3>
         <div class="row">
-          <label class="field" style="flex:1; min-width:200px">Message<input type="text" id="msgText" maxlength="60" placeholder="BACK IN 5 MIN"></label>
-          <label class="field">Colour<input type="color" id="msgColor" value="#ff6018"></label>
-          <label class="field">Speed<select id="msgSpeed"><option value="1">Slow</option><option value="2" selected>Normal</option><option value="3">Fast</option><option value="4">Faster</option></select></label>
-          <button class="btn primary" id="msgSend" style="align-self:flex-end">Show</button>
+          <label class="field" style="flex:1; min-width:200px">Mensaje<input type="text" id="msgText" maxlength="60" placeholder="BACK IN 5 MIN"></label>
+          <label class="field">Color<input type="color" id="msgColor" value="#ff6018"></label>
+          <label class="field">Velocidad<select id="msgSpeed"><option value="1">Lento</option><option value="2" selected>Normal</option><option value="3">Rapido</option><option value="4">Mas rapido</option></select></label>
+          <button class="btn primary" id="msgSend" style="align-self:flex-end">Mostrar</button>
         </div>
         <div class="row" id="msgSwatches" aria-label="Colour presets"></div>
-        <p class="muted" style="font-size:13px;margin:0">Letters, numbers and . ! ? : - + / _ , % ' ( ) are supported.</p>
+        <p class="muted" style="font-size:13px;margin:0">Se admiten letras, numeros y . ! ? : - + / _ , % ' ( ).</p>
       </div>
     </section>
 
     <!-- SPEAKER MODES -->
     <section id="tab-modes" hidden>
-      <h2>Speaker modes</h2>
-      <p class="muted">The speaker's own built-in displays.</p>
+      <h2>Modos del altavoz</h2>
+      <p class="muted">Pantallas integradas del propio altavoz.</p>
       <div class="grid">
-        <div class="card stack"><h3>Clock</h3>
-          <label class="field">Style<select id="clockStyle"></select></label>
-          <div class="row"><label class="field">Colour<input type="color" id="clockColor" value="#ffffff"></label>
-            <button class="chip" id="clkTime" aria-pressed="true">Time</button><button class="chip" id="clkWeather" aria-pressed="false">Weather</button>
-            <button class="chip" id="clkTemp" aria-pressed="false">Temperature</button><button class="chip" id="clkCal" aria-pressed="false">Calendar</button></div>
-          <button class="btn primary" id="clockApply">Show clock</button></div>
-        <div class="card stack"><h3>Light</h3>
-          <label class="field">Type<select id="lightType"></select></label>
-          <div class="row"><label class="field">Colour<input type="color" id="lightColor" value="#ff6018"></label>
-            <label class="field" style="flex:1">Brightness<input type="range" id="lightBright" min="5" max="100" value="100"></label></div>
-          <button class="btn primary" id="lightApply">Show light</button></div>
+        <div class="card stack"><h3>Reloj</h3>
+          <label class="field">Estilo<select id="clockStyle"></select></label>
+          <div class="row"><label class="field">Color<input type="color" id="clockColor" value="#ffffff"></label>
+            <button class="chip" id="clkTime" aria-pressed="true">Hora</button><button class="chip" id="clkWeather" aria-pressed="false">Tiempo</button>
+            <button class="chip" id="clkTemp" aria-pressed="false">Temperatura</button><button class="chip" id="clkCal" aria-pressed="false">Calendario</button></div>
+          <button class="btn primary" id="clockApply">Mostrar reloj</button></div>
+        <div class="card stack"><h3>Luz</h3>
+          <label class="field">Tipo<select id="lightType"></select></label>
+          <div class="row"><label class="field">Color<input type="color" id="lightColor" value="#ff6018"></label>
+            <label class="field" style="flex:1">Brillo<input type="range" id="lightBright" min="5" max="100" value="100"></label></div>
+          <button class="btn primary" id="lightApply">Mostrar luz</button></div>
       </div>
-      <div class="card"><h3>Effects</h3><div class="btn-grid" id="effectBtns"></div></div>
-      <div class="card"><h3>Music visualizer</h3><p class="muted" style="font-size:13px">Reacts to sound playing through the speaker.</p><div class="btn-grid" id="vizBtns"></div></div>
+      <div class="card"><h3>Efectos</h3><div class="btn-grid" id="effectBtns"></div></div>
+      <div class="card"><h3>Visualizador de musica</h3><p class="muted" style="font-size:13px">Reacciona al sonido que suena por el altavoz.</p><div class="btn-grid" id="vizBtns"></div></div>
       <div class="grid">
-        <div class="card stack"><h3>Scoreboard</h3>
+        <div class="card stack"><h3>Marcador</h3>
           <div class="row" style="justify-content:space-around">
             <div class="score"><button class="btn" data-score="red" data-d="-1" aria-label="Red minus one">-</button><b id="scoreRed">0</b><button class="btn" data-score="red" data-d="1" aria-label="Red plus one">+</button></div>
             <div class="score"><button class="btn" data-score="blue" data-d="-1" aria-label="Blue minus one">-</button><b id="scoreBlue">0</b><button class="btn" data-score="blue" data-d="1" aria-label="Blue plus one">+</button></div>
           </div>
-          <div class="row between"><span class="muted">Red and blue players</span><button class="btn" id="scoreReset">Reset</button></div></div>
-        <div class="card stack"><h3>Weather and time</h3>
-          <div class="row"><label class="field">Temperature (C)<input type="number" id="wxTemp" value="25" min="-50" max="100" style="width:110px"></label>
-            <label class="field">Sky<select id="wxKind"></select></label></div>
-          <div class="row"><button class="btn primary" id="wxSend">Send weather</button><button class="btn" id="syncTime">Sync clock to this PC</button></div></div>
+          <div class="row between"><span class="muted">Jugadores rojo y azul</span><button class="btn" id="scoreReset">Reiniciar</button></div></div>
+        <div class="card stack"><h3>Tiempo y hora</h3>
+          <div class="row"><label class="field">Temperatura (C)<input type="number" id="wxTemp" value="25" min="-50" max="100" style="width:110px"></label>
+            <label class="field">Cielo<select id="wxKind"></select></label></div>
+          <div class="row"><button class="btn primary" id="wxSend">Enviar tiempo</button><button class="btn" id="syncTime">Sincronizar reloj con este PC</button></div></div>
       </div>
     </section>
 
     <!-- APPS -->
     <section id="tab-apps" hidden>
-      <h2>Timers and meters</h2>
-      <div class="card stack"><h3>Timer</h3>
+      <h2>Temporizadores y medidores</h2>
+      <div class="card stack"><h3>Temporizador</h3>
         <div id="timerRun" hidden>
           <div class="row between"><div><div class="readout" id="timerReadout">00:00</div><div class="muted" id="timerSub"></div></div>
-            <div class="row"><button class="btn" id="timerPause">Pause</button><button class="btn danger" id="timerStop">Stop</button></div></div>
+            <div class="row"><button class="btn" id="timerPause">Pausa</button><button class="btn danger" id="timerStop">Parar</button></div></div>
         </div>
         <div id="timerSetup" class="stack">
           <div class="row" id="timerPresets"></div>
-          <div class="row"><label class="field">Minutes<input type="number" id="tMin" min="1" max="1439" value="25" style="width:100px"></label>
-            <label class="field" style="flex:1;min-width:160px">Label (optional)<input type="text" id="tLabel" maxlength="30" placeholder="Focus"></label>
-            <button class="btn primary" id="tStart" style="align-self:flex-end">Start countdown</button>
-            <button class="btn" id="swStart" style="align-self:flex-end">Stopwatch</button></div>
-          <p class="muted" style="font-size:13px;margin:0">The screen shows minutes over seconds and a progress bar. When it ends, the face waves at you.</p></div>
+          <div class="row"><label class="field">Minutos<input type="number" id="tMin" min="1" max="1439" value="25" style="width:100px"></label>
+            <label class="field" style="flex:1;min-width:160px">Etiqueta (opcional)<input type="text" id="tLabel" maxlength="30" placeholder="Focus"></label>
+            <button class="btn primary" id="tStart" style="align-self:flex-end">Iniciar cuenta atras</button>
+            <button class="btn" id="swStart" style="align-self:flex-end">Cronometro</button></div>
+          <p class="muted" style="font-size:13px;margin:0">La pantalla muestra minutos sobre segundos y una barra de progreso. Al terminar, la cara te saluda.</p></div>
       </div>
       <div class="grid">
-        <div class="card stack"><h3>System meter</h3>
-          <p class="muted" style="font-size:13px;margin:0">Two bars on the screen: CPU on top, memory below. Green, amber, red.</p>
+        <div class="card stack"><h3>Medidor del sistema</h3>
+          <p class="muted" style="font-size:13px;margin:0">Dos barras en pantalla: CPU arriba, memoria abajo. Verde, ambar, rojo.</p>
           <div id="sysLive" class="mono muted"></div>
-          <div class="row"><button class="btn primary" id="sysStart">Start</button><button class="btn" id="sysStop">Stop</button></div></div>
-        <div class="card stack"><h3>Rotation</h3>
-          <p class="muted" style="font-size:13px;margin:0">Cycle through faces, messages and the system meter on its own.</p>
+          <div class="row"><button class="btn primary" id="sysStart">Iniciar</button><button class="btn" id="sysStop">Parar</button></div></div>
+        <div class="card stack"><h3>Rotacion</h3>
+          <p class="muted" style="font-size:13px;margin:0">Pasa solo por caras, mensajes y el medidor del sistema.</p>
           <div id="rotList" class="stack"></div>
-          <div class="row"><button class="btn" id="rotAdd">Add step</button><button class="btn primary" id="rotStart">Start</button><button class="btn" id="rotStop">Stop</button></div></div>
+          <div class="row"><button class="btn" id="rotAdd">Anadir paso</button><button class="btn primary" id="rotStart">Iniciar</button><button class="btn" id="rotStop">Parar</button></div></div>
       </div>
       <div class="grid">
-        <div class="card stack"><h3>Network latency</h3>
-          <p class="muted small" style="margin:0">A graph of how long a connection to 1.1.1.1 takes, newest on the right. Green is quick, red is slow, a red dot at the bottom means the probe failed.</p>
-          <div class="row"><button class="btn primary" id="netStart">Start</button><button class="btn" id="netStop">Stop</button></div></div>
-        <div class="card stack"><h3>Battery and disk</h3>
-          <p class="muted small" style="margin:0">Two bars: battery on top (left out on a desktop PC) and how full the system drive is below. Fuller is redder.</p>
-          <div class="row"><button class="btn primary" id="stoStart">Start</button><button class="btn" id="stoStop">Stop</button></div></div>
+        <div class="card stack"><h3>Latencia de red</h3>
+          <p class="muted small" style="margin:0">Un grafico de cuanto tarda una conexion a 1.1.1.1, lo mas reciente a la derecha. Verde es rapido, rojo lento; un punto rojo abajo significa que la sonda fallo.</p>
+          <div class="row"><button class="btn primary" id="netStart">Iniciar</button><button class="btn" id="netStop">Parar</button></div></div>
+        <div class="card stack"><h3>Bateria y disco</h3>
+          <p class="muted small" style="margin:0">Dos barras: bateria arriba (se omite en un PC de sobremesa) y llenado del disco del sistema abajo. Cuanto mas lleno, mas rojo.</p>
+          <div class="row"><button class="btn primary" id="stoStart">Iniciar</button><button class="btn" id="stoStop">Parar</button></div></div>
       </div>
     </section>
 
     <!-- MONITORS AND WEATHER -->
     <section id="tab-monitors" hidden>
-      <h2>Monitors and weather</h2>
-      <div class="card stack"><h3>Sites</h3>
-        <p class="muted small" style="margin:0">A site counts as down after two misses in a row. Then the screen flashes its name, and it shows green again when it recovers.</p>
+      <h2>Vigilancia y tiempo</h2>
+      <div class="card stack"><h3>Sitios</h3>
+        <p class="muted small" style="margin:0">Un sitio cuenta como caido tras dos fallos seguidos. Entonces la pantalla parpadea con su nombre, y vuelve a verde cuando se recupera.</p>
         <div id="siteList"></div>
         <div class="row" style="align-items:flex-end">
-          <label class="field">Name<input type="text" id="siteName" maxlength="30" placeholder="My site" style="width:150px"></label>
-          <label class="field" style="flex:1;min-width:200px">Address<input type="text" id="siteUrl" placeholder="https://example.com"></label>
-          <button class="btn primary" id="siteAdd">Add site</button></div>
-        <div class="row"><button class="btn" id="monStart">Show the grid on the speaker</button><button class="btn" id="monStop">Stop</button>
-          <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" data-set="monitors.alert" aria-label="Flash when a site goes down"><span></span></span> Flash when a site goes down</label>
-          <label class="field" style="flex-direction:row;align-items:center;gap:8px">Check every<input type="number" min="10" max="3600" data-set="monitors.interval_s" style="width:80px">seconds</label></div>
-        <p class="muted small" style="margin:0">On the speaker: one square per site, up to 16. Green is up, amber is slow, red is down, grey is waiting for the first check.</p>
+          <label class="field">Nombre<input type="text" id="siteName" maxlength="30" placeholder="My site" style="width:150px"></label>
+          <label class="field" style="flex:1;min-width:200px">Direccion<input type="text" id="siteUrl" placeholder="https://example.com"></label>
+          <button class="btn primary" id="siteAdd">Anadir sitio</button></div>
+        <div class="row"><button class="btn" id="monStart">Mostrar la rejilla en el altavoz</button><button class="btn" id="monStop">Parar</button>
+          <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" data-set="monitors.alert" aria-label="Parpadear cuando un sitio se caiga"><span></span></span> Flash when a site goes down</label>
+          <label class="field" style="flex-direction:row;align-items:center;gap:8px">Comprobar cada<input type="number" min="10" max="3600" data-set="monitors.interval_s" style="width:80px">segundos</label></div>
+        <p class="muted small" style="margin:0">En el altavoz: un cuadrado por sitio, hasta 16. Verde: arriba; ambar: lento; rojo: caido; gris: esperando la primera comprobacion.</p>
       </div>
-      <div class="card stack"><h3>Weather</h3>
-        <div class="setting" style="border:0;padding:0"><div class="what"><b>Send the real weather to the speaker</b><small>Refreshed every 20 minutes. Only your chosen city's coordinates go to Open-Meteo, a free service with no account.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="weather.enabled" aria-label="Weather"><span></span></label></div>
-        <div class="row" style="align-items:flex-end"><label class="field" style="flex:1;min-width:200px">City<input type="text" id="wxCity" placeholder="Search for a city"></label>
-          <button class="btn" id="wxSearch">Search</button></div>
+      <div class="card stack"><h3>Tiempo</h3>
+        <div class="setting" style="border:0;padding:0"><div class="what"><b>Enviar el tiempo real al altavoz</b><small>Se refresca cada 20 minutos. Solo van a Open-Meteo las coordenadas de la ciudad elegida, un servicio gratuito sin cuenta.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="weather.enabled" aria-label="Tiempo"><span></span></label></div>
+        <div class="row" style="align-items:flex-end"><label class="field" style="flex:1;min-width:200px">Ciudad<input type="text" id="wxCity" placeholder="Search for a city"></label>
+          <button class="btn" id="wxSearch">Buscar</button></div>
         <div id="wxResults" class="stack"></div>
         <div id="wxNow" class="muted"></div>
-        <p class="muted small" style="margin:0">To see it, use Speaker modes, Clock, and switch on Weather and Temperature.</p>
+        <p class="muted small" style="margin:0">Para verlo, usa Modos del altavoz, Reloj, y activa Tiempo y Temperatura.</p>
       </div>
     </section>
 
     <!-- SCHEDULE -->
     <section id="tab-schedule" hidden>
-      <h2>Schedule</h2>
-      <div class="card stack"><h3>Reminders</h3>
-        <p class="muted" style="font-size:13px;margin:0">At the set time the screen flashes a message or face, then goes back to what it was showing.</p>
+      <h2>Horario</h2>
+      <div class="card stack"><h3>Recordatorios</h3>
+        <p class="muted" style="font-size:13px;margin:0">A la hora fijada la pantalla parpadea con un mensaje o una cara, y luego vuelve a lo que mostraba.</p>
         <div id="remList"></div>
         <div class="row" style="align-items:flex-end">
-          <label class="field">Time<input type="time" id="rTime" value="09:00"></label>
-          <label class="field" style="flex:1;min-width:160px">Message (or leave empty for a face)<input type="text" id="rText" maxlength="40" placeholder="STAND UP"></label>
-          <label class="field">Face<select id="rMood"></select></label>
-          <label class="field">Seconds<input type="number" id="rSecs" value="20" min="5" max="300" style="width:90px"></label>
+          <label class="field">Hora<input type="time" id="rTime" value="09:00"></label>
+          <label class="field" style="flex:1;min-width:160px">Mensaje (o dejalo vacio para una cara)<input type="text" id="rText" maxlength="40" placeholder="STAND UP"></label>
+          <label class="field">Cara<select id="rMood"></select></label>
+          <label class="field">Segundos<input type="number" id="rSecs" value="20" min="5" max="300" style="width:90px"></label>
         </div>
-        <div class="row"><div class="days" id="rDays" role="group" aria-label="Days"></div><button class="btn primary" id="rAdd">Add reminder</button></div>
+        <div class="row"><div class="days" id="rDays" role="group" aria-label="Days"></div><button class="btn primary" id="rAdd">Anadir recordatorio</button></div>
       </div>
       <div class="grid">
-        <div class="card stack"><h3>Night mode</h3>
-          <div class="setting" style="border:0;padding:0"><div class="what"><b>Dim at night</b><small>Lowers the brightness in this window.</small></div>
-            <label class="switch"><input type="checkbox" role="switch" data-set="night.enabled" aria-label="Night mode"><span></span></label></div>
-          <div class="row"><label class="field">From<input type="time" data-set="night.start"></label><label class="field">Until<input type="time" data-set="night.end"></label>
-            <label class="field">Brightness<input type="number" min="0" max="100" data-set="night.brightness" style="width:90px"></label></div></div>
-        <div class="card stack"><h3>Go to sleep when idle</h3>
-          <p class="muted" style="font-size:13px;margin:0">If a face Claude set stays untouched this long, the sleeping face appears. Your own clock, light and timers are never interrupted. 0 turns it off.</p>
-          <label class="field">Minutes<input type="number" min="0" max="240" data-set="idle_sleep_minutes" style="width:110px"></label></div>
+        <div class="card stack"><h3>Modo noche</h3>
+          <div class="setting" style="border:0;padding:0"><div class="what"><b>Atenuar de noche</b><small>Baja el brillo en esta franja horaria.</small></div>
+            <label class="switch"><input type="checkbox" role="switch" data-set="night.enabled" aria-label="Modo noche"><span></span></label></div>
+          <div class="row"><label class="field">Desde<input type="time" data-set="night.start"></label><label class="field">Hasta<input type="time" data-set="night.end"></label>
+            <label class="field">Brillo<input type="number" min="0" max="100" data-set="night.brightness" style="width:90px"></label></div></div>
+        <div class="card stack"><h3>Dormir cuando este inactivo</h3>
+          <p class="muted" style="font-size:13px;margin:0">Si una cara puesta por Claude pasa este tiempo sin cambios, aparece la cara dormida. Tu reloj, luz y temporizadores nunca se interrumpen. 0 lo apaga.</p>
+          <label class="field">Minutos<input type="number" min="0" max="240" data-set="idle_sleep_minutes" style="width:110px"></label></div>
       </div>
     </section>
 
     <!-- SETTINGS -->
     <section id="tab-settings" hidden>
-      <h2>Settings</h2>
-      <div class="card stack"><h3>Speaker</h3>
-        <div class="row"><label class="field">Bluetooth address<input type="text" data-set="device.address" class="mono" style="width:190px" placeholder="AA:BB:CC:DD:EE:FF"></label>
-          <label class="field">Serial channel<input type="number" min="1" max="30" data-set="device.channel" style="width:90px"></label>
-          <button class="btn" id="findSpeaker" style="align-self:flex-end">Find my speaker</button>
-          <button class="btn" id="reconnect" style="align-self:flex-end">Reconnect</button></div>
+      <h2>Ajustes</h2>
+      <div class="card stack"><h3>Altavoz</h3>
+        <div class="row"><label class="field">Direccion Bluetooth<input type="text" data-set="device.address" class="mono" style="width:190px" placeholder="AA:BB:CC:DD:EE:FF"></label>
+          <label class="field">Canal serie<input type="number" min="1" max="30" data-set="device.channel" style="width:90px"></label>
+          <button class="btn" id="findSpeaker" style="align-self:flex-end">Buscar mi altavoz</button>
+          <button class="btn" id="reconnect" style="align-self:flex-end">Reconectar</button></div>
         <div id="devResults" class="stack"></div>
         <div id="connErr" class="muted" style="font-size:13px"></div>
-        <p class="muted" style="font-size:13px;margin:0">The speaker accepts one controller at a time. Close the Divoom phone app while this is connected.</p>
+        <p class="muted" style="font-size:13px;margin:0">El altavoz acepta un controlador a la vez. Cierra la app de Divoom del movil mientras esto este conectado.</p>
       </div>
       <div class="card">
-        <div class="setting"><div class="what"><b>Start with Windows</b><small>Launches the background service when you sign in, so the speaker is ready.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="autostart" aria-label="Start with Windows"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Set the speaker's clock on connect</b><small>Copies this PC's time each time it connects.</small></div>
+        <div class="setting"><div class="what"><b>Iniciar con Windows</b><small>Lanza el servicio en segundo plano al iniciar sesion, para que el altavoz este listo.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="autostart" aria-label="Iniciar con Windows"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Ajustar el reloj del altavoz al conectar</b><small>Copia la hora de este PC cada vez que conecta.</small></div>
           <label class="switch"><input type="checkbox" role="switch" data-set="sync_time_on_connect" aria-label="Sync time on connect"><span></span></label></div>
       </div>
-      <div class="card"><h3>Open this panel later</h3>
-        <p class="muted small">The service runs in the background with no window. Put an icon where you can click it to come back here.</p>
-        <div class="row"><button class="btn" id="addShortcut">Add a desktop shortcut</button><button class="btn" id="addStartMenu">Add to the Start menu</button></div></div>
-      <div class="card"><h3>Background service</h3>
-        <p class="muted" style="font-size:13px">It holds the Bluetooth link. Stopping it frees the speaker for the phone app; it restarts the next time Claude or this panel needs it.</p>
-        <button class="btn danger" id="quitBtn">Stop service</button></div>
+      <div class="card"><h3>Abrir este panel mas tarde</h3>
+        <p class="muted small">El servicio funciona en segundo plano sin ventana. Pon un icono donde puedas pulsarlo para volver aqui.</p>
+        <div class="row"><button class="btn" id="addShortcut">Anadir acceso directo al escritorio</button><button class="btn" id="addStartMenu">Anadir al menu Inicio</button></div></div>
+      <div class="card"><h3>Servicio en segundo plano</h3>
+        <p class="muted" style="font-size:13px">Mantiene el enlace Bluetooth. Pararlo libera el altavoz para la app del movil; se reinicia la proxima vez que Claude o este panel lo necesiten.</p>
+        <button class="btn danger" id="quitBtn">Detener servicio</button></div>
     </section>
   </main>
 </div>
@@ -452,10 +452,10 @@ async function api(path, body) {
 const cmd = async (req, quiet) => {
   try {
     const r = await api('/api/cmd', { req, source: 'gui' });
-    if (!r.ok && !quiet) toast(r.error || r.denied || 'Request failed');
+    if (!r.ok && !quiet) toast(r.error || r.denied || 'La peticion fallo');
     refresh();
     return r;
-  } catch (e) { toast('Cannot reach the service'); }
+  } catch (e) { toast('No se puede contactar con el servicio'); }
 };
 let toastTimer;
 function toast(msg) {
@@ -511,7 +511,7 @@ $('#nav').addEventListener('click', (e) => { const b = e.target.closest('button'
 const getPath = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
 function patchFor(path, value) { const root = {}; let o = root; const ks = path.split('.'); ks.forEach((k, i) => { o[k] = i === ks.length - 1 ? value : (o[k] = {}); o = o[k]; }); return root; }
 async function saveSettings(patch) {
-  try { SETTINGS = await api('/api/settings', patch); renderSettings(); } catch (e) { toast('Could not save'); }
+  try { SETTINGS = await api('/api/settings', patch); renderSettings(); } catch (e) { toast('No se pudo guardar'); }
 }
 function renderSettings() {
   $$('[data-set]').forEach((i) => {
@@ -540,21 +540,21 @@ $('#pinSwitch').addEventListener('change', (e) => cmd({ cmd: 'pin', value: e.tar
 
 /* ---- state polling ---- */
 const bigPlayer = new Player($('#bigScreen')), miniPlayer = new Player($('#miniScreen'));
-const ago = (s) => (s < 5 ? 'just now' : s < 90 ? Math.round(s) + 's ago' : s < 5400 ? Math.round(s / 60) + ' min ago' : Math.round(s / 3600) + ' h ago');
+const ago = (s) => (s < 5 ? 'ahora mismo' : s < 90 ? Math.round(s) + 's' : s < 5400 ? Math.round(s / 60) + ' min' : Math.round(s / 3600) + ' h ago');
 const fmtClock = (secs) => { secs = Math.max(0, Math.round(secs)); const h = (secs / 3600) | 0, m = ((secs % 3600) / 60) | 0, s = secs % 60; return (h ? h + ':' + String(m).padStart(2, '0') : String(m).padStart(2, '0')) + ':' + String(s).padStart(2, '0'); };
 async function refresh() {
-  let s; try { s = await api('/api/state'); } catch (e) { $('#connText').textContent = 'Service stopped'; $('#connDot').classList.remove('on'); return; }
+  let s; try { s = await api('/api/state'); } catch (e) { $('#connText').textContent = 'Servicio detenido'; $('#connDot').classList.remove('on'); return; }
   STATE = s; renderState(s); renderLive(s);
   if (s.current.preview_id !== PREVIEW_ID) {
     PREVIEW_ID = s.current.preview_id;
     const p = await api('/api/preview');
     bigPlayer.play(p.frames); miniPlayer.play(p.frames);
-    $('#dashCaption').textContent = p.frames ? '' : 'The speaker is drawing this one itself, so there is no copy to show here.';
+    $('#dashCaption').textContent = p.frames ? '' : 'El altavoz dibuja esto el solo, asi que no hay copia que mostrar aqui.';
   }
 }
 function renderState(s) {
   $('#connDot').classList.toggle('on', s.connected);
-  $('#connText').textContent = s.connected ? 'Connected to ' + s.address : 'Not connected' + (s.error ? ' · ' + s.error : '');
+  $('#connText').textContent = s.connected ? 'Conectado a ' + s.address : 'Sin conexion' + (s.error ? ' · ' + s.error : '');
   $('#connErr').textContent = s.connected ? '' : s.error;
   $('#nowLabel').textContent = s.current.label;
   $('#dashLabel').textContent = s.current.label;
@@ -564,16 +564,16 @@ function renderState(s) {
   const br = $('#brightness');
   if (document.activeElement !== br) br.value = s.brightness;
   $('#brightVal').textContent = s.brightness + '%';
-  $('#brightText').textContent = s.effective_brightness !== s.brightness ? 'Night mode is dimming it to ' + s.effective_brightness + '%' : '';
+  $('#brightText').textContent = s.effective_brightness !== s.brightness ? 'El modo noche lo atenúa a ' + s.effective_brightness + '%' : '';
   $('#scoreRed').textContent = s.scoreboard.red; $('#scoreBlue').textContent = s.scoreboard.blue;
   const log = $('#log'); log.replaceChildren();
-  if (!s.log.length) log.append(el('li', { class: 'empty' }, 'Nothing yet.'));
+  if (!s.log.length) log.append(el('li', { class: 'empty' }, 'Nada todavia.'));
   for (const e of s.log) {
     log.append(el('li', {}, el('time', {}, new Date(e.t * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })),
       el('span', { class: 'badge ' + e.source }, e.source),
       el('span', { class: e.ok ? '' : 'bad' }, e.action + (e.detail ? ' · ' + e.detail : ''))));
   }
-  for (const ev of s.events) toast(ev.type === 'timer_done' ? 'Timer finished: ' + ev.label : 'Reminder: ' + ev.label);
+  for (const ev of s.events) toast(ev.type === 'timer_done' ? 'Temporizador terminado: ' + ev.label : 'Recordatorio: ' + ev.label);
   const a = s.app, tm = a && a.name === 'timer' ? a.timer : null;
   $('#timerRun').hidden = !tm; $('#timerSetup').hidden = !!tm;
   if (tm) {
@@ -581,7 +581,7 @@ function renderState(s) {
     $('#timerSub').textContent = (tm.label || tm.kind) + (tm.paused ? ' · paused' : '');
     $('#timerPause').textContent = tm.paused ? 'Resume' : 'Pause';
   }
-  $('#sysLive').textContent = a && a.name === 'sysmon' && a.cpu != null ? `CPU ${a.cpu.toFixed(0)}%   Memory ${a.ram.toFixed(0)}%` : (a && a.name === 'rotation' ? 'Rotation is running' : '');
+  $('#sysLive').textContent = a && a.name === 'sysmon' && a.cpu != null ? `CPU ${a.cpu.toFixed(0)}%   Memory ${a.ram.toFixed(0)}%` : (a && a.name === 'rotation' ? 'Rotacion en marcha' : '');
 }
 $('#brightness').addEventListener('input', (e) => { $('#brightVal').textContent = e.target.value + '%'; });
 $('#brightness').addEventListener('change', (e) => cmd({ cmd: 'brightness', value: Number(e.target.value) }));
@@ -596,7 +596,7 @@ function buildFaces() {
   $('#faceGallery').replaceChildren(...names.map((n) => faceCard(n, () => cmd({ cmd: 'face', mood: n }), META.moods[n].desc.split(':')[0])));
   $('#quickFaces').replaceChildren(...names.map((n) => {
     const c = ledCanvas(40); new Player(c).play(META.moods[n].frames);
-    return el('button', { class: 'face', style: 'padding:8px', onclick: () => cmd({ cmd: 'face', mood: n }), 'aria-label': 'Show ' + n + ' face' }, c, el('small', {}, n));
+    return el('button', { class: 'face', style: 'padding:8px', onclick: () => cmd({ cmd: 'face', mood: n }), 'aria-label': 'Mostrar ' + n + ' face' }, c, el('small', {}, n));
   }));
   $('#moodToggles').replaceChildren(...names.map((n) => {
     const c = ledCanvas(48); new Player(c).play(META.moods[n].frames);
@@ -609,7 +609,7 @@ function buildFaces() {
 }
 const SWATCHES = ['#ff6018', '#ffffff', '#00ff3c', '#00b4ff', '#ff2d6f', '#ffd400', '#b366ff'];
 function buildText() {
-  $('#msgSwatches').replaceChildren(...SWATCHES.map((c) => el('button', { class: 'chip', style: `border-left:14px solid ${c}`, 'aria-label': 'Colour ' + c, onclick: () => ($('#msgColor').value = c) }, c)));
+  $('#msgSwatches').replaceChildren(...SWATCHES.map((c) => el('button', { class: 'chip', style: `border-left:14px solid ${c}`, 'aria-label': 'Color ' + c, onclick: () => ($('#msgColor').value = c) }, c)));
   const send = () => { const t = $('#msgText').value.trim(); if (t) cmd({ cmd: 'text', text: t, color: hex2rgb($('#msgColor').value), speed: Number($('#msgSpeed').value) }); };
   $('#msgSend').onclick = send; $('#msgText').addEventListener('keydown', (e) => e.key === 'Enter' && send());
 }
@@ -624,12 +624,12 @@ function buildModes() {
   $('#clockApply').onclick = () => cmd({ cmd: 'mode', mode: 'clock', style: Number($('#clockStyle').value), color: hex2rgb($('#clockColor').value), time: flag('#clkTime'), weather: flag('#clkWeather'), temp: flag('#clkTemp'), calendar: flag('#clkCal') });
   $('#lightApply').onclick = () => cmd({ cmd: 'mode', mode: 'light', kind: Number($('#lightType').value), color: hex2rgb($('#lightColor').value), brightness: Number($('#lightBright').value) });
   $('#effectBtns').replaceChildren(...META.effects.map((n, i) => el('button', { class: 'btn', onclick: () => cmd({ cmd: 'mode', mode: 'effect', kind: i }) }, n)));
-  $('#vizBtns').replaceChildren(...Array.from({ length: META.visualizer_count }, (_, i) => el('button', { class: 'btn', onclick: () => cmd({ cmd: 'mode', mode: 'visualizer', kind: i }) }, 'Visualizer ' + (i + 1))));
+  $('#vizBtns').replaceChildren(...Array.from({ length: META.visualizer_count }, (_, i) => el('button', { class: 'btn', onclick: () => cmd({ cmd: 'mode', mode: 'visualizer', kind: i }) }, 'Visualizador ' + (i + 1))));
   const score = (d) => { const sb = STATE ? { ...STATE.scoreboard } : { red: 0, blue: 0 }; return cmd({ cmd: 'mode', mode: 'scoreboard', red: Math.max(0, sb.red + (d.red || 0)), blue: Math.max(0, sb.blue + (d.blue || 0)) }); };
   $$('[data-score]').forEach((b) => (b.onclick = () => score({ [b.dataset.score]: Number(b.dataset.d) })));
   $('#scoreReset').onclick = () => cmd({ cmd: 'mode', mode: 'scoreboard', red: 0, blue: 0 });
-  $('#wxSend').onclick = () => cmd({ cmd: 'weather', temp: Number($('#wxTemp').value), weather: $('#wxKind').value }).then((r) => r && r.ok && toast('Weather sent. Show it with the Clock option Weather / Temperature.'));
-  $('#syncTime').onclick = () => cmd({ cmd: 'synctime' }).then((r) => r && r.ok && toast('Speaker clock set to this PC'));
+  $('#wxSend').onclick = () => cmd({ cmd: 'weather', temp: Number($('#wxTemp').value), weather: $('#wxKind').value }).then((r) => r && r.ok && toast('Tiempo enviado. Veelo en Modos del altavoz, Reloj, activando Tiempo y Temperatura.'));
+  $('#syncTime').onclick = () => cmd({ cmd: 'synctime' }).then((r) => r && r.ok && toast('Reloj del altavoz puesto con la hora de este PC'));
 }
 
 /* ---- apps ---- */
@@ -655,13 +655,13 @@ function renderRotation() {
   const list = $('#rotList');
   if (document.activeElement && list.contains(document.activeElement)) return;
   list.replaceChildren(...items.map((it, i) => {
-    const type = el('select', { 'aria-label': 'Step type', onchange: (e) => { const t = e.target.value; items[i] = t === 'face' ? { type: t, mood: 'idle', seconds: it.seconds } : t === 'text' ? { type: t, text: 'HELLO', seconds: it.seconds } : { type: 'app', name: 'sysmon', seconds: it.seconds }; save(); } },
+    const type = el('select', { 'aria-label': 'Tipo de paso', onchange: (e) => { const t = e.target.value; items[i] = t === 'face' ? { type: t, mood: 'idle', seconds: it.seconds } : t === 'text' ? { type: t, text: 'HELLO', seconds: it.seconds } : { type: 'app', name: 'sysmon', seconds: it.seconds }; save(); } },
       ...[['face', 'Face'], ['text', 'Message'], ['app', 'System meter']].map(([v, n]) => el('option', { value: v, selected: it.type === v }, n)));
     const val = it.type === 'face' ? el('select', { 'aria-label': 'Face', onchange: (e) => { it.mood = e.target.value; save(); } }, ...Object.keys(META.moods).map((n) => el('option', { value: n, selected: it.mood === n }, n)))
-      : it.type === 'text' ? el('input', { type: 'text', value: it.text || '', maxlength: 28, 'aria-label': 'Message', style: 'width:130px', onchange: (e) => { it.text = e.target.value; save(); } }) : el('span', { class: 'muted' }, 'CPU and memory');
+      : it.type === 'text' ? el('input', { type: 'text', value: it.text || '', maxlength: 28, 'aria-label': 'Message', style: 'width:130px', onchange: (e) => { it.text = e.target.value; save(); } }) : el('span', { class: 'muted' }, 'CPU y memoria');
     const secs = el('input', { type: 'number', min: 3, max: 600, value: it.seconds || 10, 'aria-label': 'Seconds', style: 'width:72px', onchange: (e) => { it.seconds = Number(e.target.value); save(); } });
     return el('div', { class: 'rot' }, type, val, el('label', { class: 'row', style: 'gap:6px;flex-wrap:nowrap' }, secs, el('span', { class: 'muted' }, 'sec')),
-      el('button', { class: 'btn', 'aria-label': 'Remove step', onclick: () => { items.splice(i, 1); save(); } }, 'Remove'));
+      el('button', { class: 'btn', 'aria-label': 'Quitar paso', onclick: () => { items.splice(i, 1); save(); } }, 'Remove'));
   }));
 }
 
@@ -672,18 +672,18 @@ function buildSchedule() {
   const paint = () => $('#rDays').replaceChildren(...DAYS.map((d, i) => el('button', { class: 'chip', 'aria-pressed': newDays.includes(i), onclick: () => { newDays = newDays.includes(i) ? newDays.filter((x) => x !== i) : [...newDays, i]; paint(); } }, d)));
   paint();
   $('#rAdd').onclick = () => {
-    if (!newDays.length) return toast('Pick at least one day');
+    if (!newDays.length) return toast('Elige al menos un dia');
     const r = { id: String(Date.now()), time: $('#rTime').value || '09:00', days: [...newDays].sort(), text: $('#rText').value.trim().toUpperCase(), mood: $('#rMood').value, seconds: Number($('#rSecs').value) || 20, enabled: true };
     saveSettings({ reminders: [...SETTINGS.reminders, r] }); $('#rText').value = '';
   };
 }
 function renderReminders() {
   const box = $('#remList');
-  if (!SETTINGS.reminders.length) return box.replaceChildren(el('div', { class: 'empty' }, 'No reminders yet.'));
+  if (!SETTINGS.reminders.length) return box.replaceChildren(el('div', { class: 'empty' }, 'Todavia no hay recordatorios.'));
   box.replaceChildren(...SETTINGS.reminders.map((r) => el('div', { class: 'setting' },
-    el('div', { class: 'what' }, el('b', { class: 'mono' }, r.time + '  ' + (r.text || r.mood)), el('small', {}, (r.days.length === 7 ? 'Every day' : r.days.map((d) => DAYS[d]).join(' ')) + ' · ' + r.seconds + 's')),
+    el('div', { class: 'what' }, el('b', { class: 'mono' }, r.time + '  ' + (r.text || r.mood)), el('small', {}, (r.days.length === 7 ? 'Todos los dias' : r.days.map((d) => DAYS[d]).join(' ')) + ' · ' + r.seconds + 's')),
     el('div', { class: 'row' },
-      el('label', { class: 'switch' }, el('input', { type: 'checkbox', role: 'switch', checked: r.enabled, 'aria-label': 'Enable reminder', onchange: (e) => { r.enabled = e.target.checked; saveSettings({ reminders: SETTINGS.reminders }); } }), el('span')),
+      el('label', { class: 'switch' }, el('input', { type: 'checkbox', role: 'switch', checked: r.enabled, 'aria-label': 'Activar recordatorio', onchange: (e) => { r.enabled = e.target.checked; saveSettings({ reminders: SETTINGS.reminders }); } }), el('span')),
       el('button', { class: 'btn', onclick: () => saveSettings({ reminders: SETTINGS.reminders.filter((x) => x.id !== r.id) }) }, 'Delete')))));
 }
 
@@ -692,21 +692,21 @@ function buildSettingsTab() {
   $('#reconnect').onclick = async () => { await api('/api/reconnect', {}); toast('Reconnecting'); };
   const shortcut = (where, label) => async () => {
     const r = await api('/api/shortcut', { where });
-    toast(r.ok ? 'Added to ' + label : 'Could not add it: ' + (r.error || 'unknown error'));
+    toast(r.ok ? 'Anadido a ' + label : 'No se pudo anadir: ' + (r.error || 'error desconocido'));
   };
   $('#addShortcut').onclick = shortcut('desktop', 'your desktop');
-  $('#addStartMenu').onclick = shortcut('startmenu', 'the Start menu');
+  $('#addStartMenu').onclick = shortcut('startmenu', 'el menu Inicio');
   $('#findSpeaker').onclick = async () => {
-    const box = $('#devResults'); box.replaceChildren(el('span', { class: 'muted' }, 'Looking at your paired Bluetooth devices'));
+    const box = $('#devResults'); box.replaceChildren(el('span', { class: 'muted' }, 'Revisando tus dispositivos Bluetooth emparejados'));
     let r; try { r = await api('/api/discover'); } catch (e) { r = { devices: [] }; }
     box.replaceChildren(...(r.devices.length ? r.devices.map((d) => el('button', { class: 'btn', style: 'text-align:left',
-      onclick: () => { saveSettings({ device: { address: d.address } }); box.replaceChildren(); api('/api/reconnect', {}); toast('Using ' + d.name); } },
-      d.name + '  ' + d.address)) : [el('span', { class: 'muted' }, 'No Divoom speaker found. Pair it in Windows Bluetooth settings first, then try again.')]));
+      onclick: () => { saveSettings({ device: { address: d.address } }); box.replaceChildren(); api('/api/reconnect', {}); toast('Usando ' + d.name); } },
+      d.name + '  ' + d.address)) : [el('span', { class: 'muted' }, 'No se encontro ningun altavoz Divoom. Emparejalo antes en Ajustes de Bluetooth de Windows y vuelvelo a intentar.')]));
   };
   let armed = false;
   $('#quitBtn').onclick = async (e) => {
-    if (!armed) { armed = true; e.target.textContent = 'Click again to stop'; setTimeout(() => { armed = false; e.target.textContent = 'Stop service'; }, 3000); return; }
-    await api('/api/quit', {}); toast('Service stopped. Close this tab.');
+    if (!armed) { armed = true; e.target.textContent = 'Pulsa de nuevo para parar'; setTimeout(() => { armed = false; e.target.textContent = 'Detener servicio'; }, 3000); return; }
+    await api('/api/quit', {}); toast('Servicio detenido. Cierra esta pestana.');
   };
   $('#themeBtn').onclick = () => {
     const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
@@ -718,13 +718,13 @@ function buildSettingsTab() {
 }
 
 /* ---- live status ---- */
-const STATE_TEXT = { idle: 'idle', thinking: 'thinking', working: 'working', attention: 'needs you', done: 'done', error: 'error', sleep: 'asleep' };
+const STATE_TEXT = { idle: 'idle', thinking: 'thinking', working: 'working', attention: 'te necesita', done: 'done', error: 'error', sleep: 'asleep' };
 function setList(node, sig, build) {
   if (node.dataset.sig === sig) return;
   node.dataset.sig = sig; node.replaceChildren(...build());
 }
 const dur = (s) => (s < 90 ? Math.round(s) + 's' : Math.round(s / 60) + ' min');
-const TOOL_NAMES = { bash: 'Terminal', edit: 'Edit files', read: 'Read files', write: 'Write files', search: 'Search', web: 'Web', agent: 'Sub-agents', test: 'Tests', git: 'Git' };
+const TOOL_NAMES = { bash: 'Terminal', edit: 'Editando archivos', read: 'Leyendo archivos', write: 'Escribiendo archivos', search: 'Search', web: 'Web', agent: 'Sub-agents', test: 'Tests', git: 'Git' };
 function buildLive() {
   const resume = () => cmd({ cmd: 'scene', action: 'resume' });
   $('#resumeBtn').onclick = resume; $('#resumeBtn2').onclick = resume;
@@ -732,7 +732,7 @@ function buildLive() {
   $('#glyphGallery').replaceChildren(...Object.entries(META.glyphs).map(([k, hex]) => {
     const c = ledCanvas(56); drawLed(c, hex);
     return el('div', { class: 'face', style: 'cursor:default' }, c, el('b', {}, TOOL_NAMES[k] || k),
-      el('span', { class: 'switch' }, el('input', { type: 'checkbox', role: 'switch', 'data-glyph': k, 'aria-label': 'Show the ' + (TOOL_NAMES[k] || k) + ' picture' }), el('span')));
+      el('span', { class: 'switch' }, el('input', { type: 'checkbox', role: 'switch', 'data-glyph': k, 'aria-label': 'Mostrar ' + (TOOL_NAMES[k] || k) + ' picture' }), el('span')));
   }));
 }
 function renderLive(s) {
@@ -740,22 +740,22 @@ function renderLive(s) {
   $('#heldBanner').hidden = !held;
   if (held) {
     const why = s.app ? 'a ' + s.app.name + ' is running' : s.scene.holding_for === 'forever' ? 'you chose a speaker mode'
-      : 'a face you or Claude picked stays for ' + s.scene.holding_for + ' more seconds';
-    $('#heldText').textContent = "Claude's live status is paused: " + why + '.';
+      : 'a face you or Claude picked stays for ' + s.scene.holding_for + ' segundos mas';
+    $('#heldText').textContent = "El estado en vivo de Claude esta en pausa: " + why + '.';
   }
   const ss = s.sessions;
   $('#sessionSummary').textContent = ss.length
     ? (ss.length === 1 ? '1 Claude session: ' : ss.length + ' Claude sessions: ') + ss.map((x) => (x.project || 'session') + ' ' + STATE_TEXT[x.state]).join(', ')
-    : 'No Claude sessions yet. They appear as soon as Claude Code runs.';
+    : 'Todavia no hay sesiones de Claude. Aparecen en cuanto Claude Code trabaja.';
   const sig = JSON.stringify(ss.map((x) => [x.id, x.state, x.tool, x.agents, Math.floor((x.elapsed || 0) / 5), Math.floor((x.waiting_for || 0) / 5), Math.floor(x.idle_for / 30)]));
   setList($('#sessionList'), sig, () => ss.length ? ss.map((x) => el('div', { class: 'setting' },
     el('div', { class: 'what' }, el('b', {}, el('span', { class: 'sw', style: 'background:rgb(' + x.color.join(',') + ')' }), x.project || 'session'),
       el('small', {}, [x.state === 'working' && x.tool ? 'using ' + x.tool : '', x.agents ? x.agents + ' sub-agent' + (x.agents > 1 ? 's' : '') : '',
-        x.elapsed != null ? 'task running ' + dur(x.elapsed) : '', x.waiting_for != null ? 'waiting on you for ' + dur(x.waiting_for) : '',
-        'last activity ' + dur(x.idle_for) + ' ago'].filter(Boolean).join(' · '))),
-    el('span', { class: 'badge' }, STATE_TEXT[x.state]))) : [el('div', { class: 'empty' }, 'Nothing yet. Sessions show up here when Claude Code runs its hooks.')]);
+        x.elapsed != null ? 'tarea en marcha ' + dur(x.elapsed) : '', x.waiting_for != null ? 'esperandote desde hace ' + dur(x.waiting_for) : '',
+        'ultima actividad ' + dur(x.idle_for) + ' ago'].filter(Boolean).join(' · '))),
+    el('span', { class: 'badge' }, STATE_TEXT[x.state]))) : [el('div', { class: 'empty' }, 'Nada todavia. Las sesiones aparecen aqui cuando Claude Code ejecuta sus hooks.')]);
   $('#ciCard').hidden = !s.ci;
-  if (s.ci) $('#ciText').textContent = s.ci.repo + '@' + s.ci.branch + ' (' + s.ci.sha + '): ' + ({ waiting: 'waiting for the run to start', running: 'running', success: 'passed', failure: 'failed' }[s.ci.state] || s.ci.state);
+  if (s.ci) $('#ciText').textContent = s.ci.repo + '@' + s.ci.branch + ' (' + s.ci.sha + '): ' + ({ waiting: 'esperando a que empiece la ejecucion', running: 'running', success: 'passed', failure: 'failed' }[s.ci.state] || s.ci.state);
   renderMonitors();
 }
 
@@ -776,7 +776,7 @@ function buildMonitors() {
     let r; try { r = await api('/api/geocode?q=' + encodeURIComponent(q)); } catch (e) { r = { results: [], error: 'offline' }; }
     box.replaceChildren(...(r.results.length ? r.results.map((c) => el('button', { class: 'btn', style: 'text-align:left',
       onclick: () => { saveSettings({ weather: { enabled: true, city: c.name, lat: c.lat, lon: c.lon } }); box.replaceChildren(); $('#wxCity').value = ''; } },
-      [c.name, c.region, c.country].filter(Boolean).join(', '))) : [el('span', { class: 'muted' }, r.error ? 'Could not search (' + r.error + ')' : 'No city found')]));
+      [c.name, c.region, c.country].filter(Boolean).join(', '))) : [el('span', { class: 'muted' }, r.error ? 'No se pudo buscar (' + r.error + ')' : 'Ciudad no encontrada')]));
   };
   $('#wxSearch').onclick = search; $('#wxCity').addEventListener('keydown', (e) => e.key === 'Enter' && search());
 }
@@ -787,24 +787,24 @@ function renderMonitors() {
   const sig = JSON.stringify([items, Object.values(res).map((r) => [r.id, r.up, r.ms])]);
   setList($('#siteList'), sig, () => items.length ? items.map((it) => {
     const r = res[it.id];
-    const text = !it.enabled ? 'paused' : !r ? 'checking' : r.up === true ? r.ms + ' ms' + (r.error ? ' · ' + r.error : '') : r.up === false ? 'down' + (r.error ? ' · ' + r.error : '') : 'not sure yet';
+    const text = !it.enabled ? 'paused' : !r ? 'checking' : r.up === true ? r.ms + ' ms' + (r.error ? ' · ' + r.error : '') : r.up === false ? 'down' + (r.error ? ' · ' + r.error : '') : 'sin decidir aun';
     const color = !it.enabled || !r || r.up == null ? 'var(--muted)' : r.up ? ((r.ms || 0) > 2000 ? '#d97706' : 'var(--ok)') : 'var(--bad)';
     return el('div', { class: 'setting' },
       el('div', { class: 'what' }, el('b', {}, el('span', { class: 'site-dot', style: 'background:' + color }), it.name), el('small', { class: 'mono' }, it.url + ' · ' + text)),
       el('div', { class: 'row' },
-        el('label', { class: 'switch' }, el('input', { type: 'checkbox', role: 'switch', checked: it.enabled, 'aria-label': 'Watch ' + it.name,
+        el('label', { class: 'switch' }, el('input', { type: 'checkbox', role: 'switch', checked: it.enabled, 'aria-label': 'Vigilar ' + it.name,
           onchange: (e) => { it.enabled = e.target.checked; saveSettings({ monitors: { items } }); } }), el('span')),
         el('button', { class: 'btn', onclick: () => saveSettings({ monitors: { items: items.filter((x) => x.id !== it.id) } }) }, 'Remove')));
-  }) : [el('div', { class: 'empty' }, 'No sites yet. Add one below.')]);
+  }) : [el('div', { class: 'empty' }, 'No hay sitios todavia. Anade uno abajo.')]);
   const w = STATE && STATE.weather, cfg = SETTINGS.weather;
-  $('#wxNow').textContent = !cfg.enabled ? (cfg.city ? cfg.city + ' is chosen, but weather is switched off.' : 'Search for a city to start.')
-    : !w ? 'Fetching weather for ' + cfg.city : w.error ? 'Could not fetch weather (' + w.error + ')' : cfg.city + ': ' + w.temp + '°C, ' + w.sky + ' (sent to the speaker)';
+  $('#wxNow').textContent = !cfg.enabled ? (cfg.city ? cfg.city + ' is chosen, but weather is switched off.' : 'Busca una ciudad para empezar.')
+    : !w ? 'Obteniendo el tiempo de ' + cfg.city : w.error ? 'No se pudo obtener el tiempo (' + w.error + ')' : cfg.city + ': ' + w.temp + '°C, ' + w.sky + ' (sent to the speaker)';
 }
 
 /* ---- boot ---- */
 async function boot() {
   prepCanvas($('#bigScreen'), 224); prepCanvas($('#miniScreen'), 44);
-  try { META = await api('/api/meta'); SETTINGS = await api('/api/settings'); } catch (e) { $('#nowLabel').textContent = 'Cannot reach the service'; return; }
+  try { META = await api('/api/meta'); SETTINGS = await api('/api/settings'); } catch (e) { $('#nowLabel').textContent = 'No se puede contactar con el servicio'; return; }
   buildFaces(); buildText(); buildModes(); buildApps(); buildSchedule(); buildSettingsTab(); buildLive(); buildMonitors(); renderSettings();
   showTab(location.hash.slice(1) || 'dash');
   await refresh();

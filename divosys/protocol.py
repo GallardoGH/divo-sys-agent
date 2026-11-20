@@ -75,7 +75,7 @@ def _rgb(color):
     return bytes(int(c) & 0xFF for c in color)
 
 
-CLOCK_STYLES = ["Full screen", "Rainbow", "With box", "Analog square", "Full screen negative", "Analog round"]
+CLOCK_STYLES = ["Pantalla completa", "Arcoiris", "Con caja", "Analogico cuadrado", "Pantalla completa negativa", "Analogico redondo"]
 
 
 def clock_packet(style=0, color=(255, 255, 255), time=True, weather=False, temp=False, calendar=False):

@@ -196,6 +196,14 @@ def _build():
 FACES = _build()
 MOODS = sorted(FACES)
 
+# ---- ZERO custom faces (fork GallardoGH) -------------------------------------------
+# Eyes 4x4 with 2x2 pupil, colour per mood, mouth below; replaces the brand set.
+# Revert: delete the two lines below (the originals stay in _build()).
+from . import zerofaces as _zerofaces  # noqa: E402
+FACES = _zerofaces.build()
+MOODS = sorted(FACES)
+# -------------------------------------------------------------------------------------
+
 # ---- 3x5 font ----------------------------------------------------------------------
 _G = {
     "A": ".#./#.#/###/#.#/#.#", "B": "##./#.#/##./#.#/##.", "C": ".##/#../#../#../.##",

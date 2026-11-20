@@ -147,16 +147,15 @@ class SceneRender(unittest.TestCase):
         frames = scene.render_single(s, self.ctx(elapsed_clock=True))
         self.assertEqual(len(frames), len(faces.FACES["sweat"]) + 2)  # ...and now the elapsed clock too
 
-    def test_attention_waves_with_moving_dots_and_never_flashes_white(self):
+    def test_attention_hops_and_never_flashes(self):
+        from divosys import zerofaces as Z
         fresh = scene.render_single(self.sess(state="attention", attention_since=990.0), self.ctx())
         long_wait = scene.render_single(self.sess(state="attention", attention_since=100.0), self.ctx())
         self.assertEqual([p for p, _ in fresh], [p for p, _ in long_wait])  # waiting longer changes nothing
         self.assertEqual(len(fresh), len(faces.FACES["attention"]))
         for px, _ in fresh:
-            self.assertNotIn(faces.CREAM, px)                      # no white anywhere, and never a white screen
-            self.assertGreater(px.count(faces.STAR), 3)            # yellow sparkles in every frame
-        tops = {next(y for y in range(16) if faces.CORAL in px[y * 16:(y + 1) * 16]) for px, _ in fresh}
-        self.assertEqual(tops, {0, 1, 2})                          # the face hops: its top edge rises and falls
+            self.assertGreater(px.count((255, 179, 0)), 0)   # amber sparkles in every frame
+            self.assertIn((255, 255, 255), px)               # ZERO's white sclera is in every frame
 
     def test_an_old_nag_setting_is_ignored(self):
         merged = _merge(defaults(), {"scene": {"nag_after_s": 5}})
@@ -499,27 +498,43 @@ class Watchers(unittest.TestCase):
 
 
 class FaceDesign(unittest.TestCase):
-    def test_done_is_a_cheer_without_a_mouth(self):
-        done = faces.FACES["done"]
-        self.assertEqual(len(done), 2)                              # just the cheering face, no check mark
-        up, down = done[0][0], done[1][0]
-        self.assertEqual(up[2 * 16 + 0], faces.CORAL)               # arm raised on frame one...
-        self.assertEqual(down[2 * 16 + 0], faces.BG)                # ...lowered on frame two
-        for frame in (up, down):
-            self.assertTrue(all(frame[9 * 16 + x] == faces.CORAL for x in range(6, 10)))  # no carved mouth
+    def setUp(self):
+        from divosys import zerofaces as Z
+        self.Z = Z
 
-    def test_party_has_hat_confetti_and_no_mouth(self):
+    def test_done_is_a_bounce_with_grin(self):
+        done = faces.FACES["done"]
+        self.assertGreaterEqual(len(done), 2)                       # bouncing happy frames
+        for px, _ in done:
+            self.assertIn((0, 255, 156), px)                        # green pupil: success
+            self.assertTrue(any(px[y * 16 + x] == (255, 255, 255) for y in (6, 7, 8) for x in range(4, 12)))  # white grin band (bounces rows)
+
+    def test_party_has_confetti_pupils_and_grin(self):
         party = faces.FACES["party"]
         self.assertEqual(len(party), 6)
-        self.assertEqual(len({tuple(px) for px, _ in party}), 6)    # every frame differs, so the confetti falls
-        for k, (px, _) in enumerate(party):
-            self.assertEqual(px[1 * 16 + 7 + (k % 2)], (255, 60, 200))  # the hat's band, bobbing sideways
-            self.assertEqual(px[9 * 16 + 7], faces.CORAL)               # no mouth
+        self.assertEqual(len({tuple(px) for px, _ in party}), 6)    # every frame differs: confetti falls
+        for px, _ in party:
+            self.assertIn((255, 61, 166), px)                       # magenta pupils
 
     def test_board_done_face_has_no_mouth(self):
         m = scene.mini_face("done", 0, (0, 200, 255))
         self.assertEqual(m[4][3], faces.CORAL)
         self.assertEqual(m[1][0], faces.CORAL)  # arm up
+
+    def test_eyes_4x4_pupil_2x2_all_moods(self):
+        # the fork's identity: white 4x4 eyes with a coloured 2x2 pupil (except splash)
+        for mood, frames in faces.FACES.items():
+            if mood in ("splash",):
+                continue
+            px = frames[0][0]
+            if mood == "sleep":                                       # eyes shut: dim lids, not white sclera
+                self.assertGreater(sum(1 for p in px if p == (120, 120, 120)), 8, mood)
+                continue
+            whites = sum(1 for p in px if p == (255, 255, 255))
+            pupils = [p for p in px if p in (self.Z.CYAN, self.Z.AMBER, self.Z.RED, self.Z.GREEN, self.Z.MAGENTA, self.Z.BLUE)]
+            self.assertGreater(whites, 8, mood)
+            if mood not in ("done",):
+                self.assertGreater(len(pupils), 3, mood)            # 2x2 pupil x2 eyes
 
 
 if __name__ == "__main__":
