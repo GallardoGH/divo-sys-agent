@@ -91,8 +91,10 @@ def _mouth(g, shape, dy=0):
     for yy, x in pts:
         _p(g, x, yy, WHITE)
     if shape == "tongue":
-        _p(g, 7, y + 1, MAGENTA)
-        _p(g, 8, y + 1, MAGENTA)
+        _p(g, 7, y + 1, RED)
+        _p(g, 8, y + 1, RED)
+        _p(g, 7, y + 2, RED)
+        _p(g, 8, y + 2, RED)
 
 def _brows(g):
     for i in range(6):  # inner ends lower: properly angry
@@ -212,9 +214,11 @@ def build():
         (E(pupil=CYAN, pl=(0, 2), pr=(0, 2), half=True, mouth="small"), 800),
         (E(pupil=CYAN, pl=(0, 2), pr=(2, 2), half=True, mouth="small"), 650),
         (E(pupil=CYAN, blink=True, mouth="small"), 600),
-        (E(closed=True, mouth="open", dy=1), 450),
-        (E(closed=True, mouth="open", dy=1), 450),
-        (E(pupil=CYAN, half=True, mouth="small"), 350),
+        (E(closed=True, mouth="open"), 350),          # jaws start to drop
+        (E(closed=True, mouth="open", dy=1), 700),    # full yawn held
+        (E(closed=True, mouth="open", dy=1), 550),
+        (E(closed=True, mouth="small", dy=1), 300),   # snap shut
+        (E(pupil=CYAN, half=True, mouth="small"), 400),
         (E(pupil=CYAN, pl=(0, 2), pr=(0, 2), half=True, mouth="flat"), 700),
     ]
     f["tease"] = [
