@@ -103,6 +103,15 @@ python divo.py text HELLO            scroll a message
 python divo.py status                what is connected and showing
 ```
 
+## Fork ZERO (GallardoGH/divo-sys-zero)
+
+Our changes on top of upstream:
+
+- **ZERO faces** (`divosys/zerofaces.py`, override block at the end of `faces.py`): the whole Claude-brand set is replaced by our design — two 4x4 white eyes with a **2x2 pupil whose colour marks the mood** (cyan calm · amber thinking/attention · red error/anger · green done/happy · magenta hearts/party · blue sweat) and an expressive mouth below (grin, frown, zig-zag, yawn, tongue, smirk, open-O). New moods added: `happy, angry, wink, bored, tease, surprise, heart` (17 in total). Revert by deleting the override block; the original `_build()` stays untouched.
+- **Spanish UI (es-ES)**: panel strings (`web/index.html`, original kept as `index.html.en`), mood/tool descriptions (`server.py`) and clock styles (`protocol.py`).
+- Tests in `test_live.py`/`test_app.py`/`test_shortcut.py` updated to assert OUR design invariants (pupil colours, mouth bands, icon pixels) instead of the brand ones.
+- After editing Python sources, rebuild the app exe (`python divo.py install`) and restart the daemon — the running `divo-sys.exe` embeds a copy of the code.
+
 ## How it works
 
 | File | Role |

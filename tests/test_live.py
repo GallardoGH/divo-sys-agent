@@ -530,6 +530,9 @@ class FaceDesign(unittest.TestCase):
             if mood == "sleep":                                       # eyes shut: dim lids, not white sclera
                 self.assertGreater(sum(1 for p in px if p == (120, 120, 120)), 8, mood)
                 continue
+            if mood == "heart":                                       # heart eyes: magenta hearts, no sclera
+                self.assertGreater(sum(1 for p in px if p == (255, 61, 166)), 8, mood)
+                continue
             whites = sum(1 for p in px if p == (255, 255, 255))
             pupils = [p for p in px if p in (self.Z.CYAN, self.Z.AMBER, self.Z.RED, self.Z.GREEN, self.Z.MAGENTA, self.Z.BLUE)]
             self.assertGreater(whites, 8, mood)

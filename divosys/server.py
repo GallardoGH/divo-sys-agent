@@ -30,6 +30,13 @@ MOOD_DESC = {
     "splash": "La estrella de Claude",
     "party": "Sombrero de fiesta, brazos vitoreando, confeti: celebracion",
     "sweat": "Preocupado con gotas de sudor: una tarea larga sigue en marcha",
+    "happy": "Ojos verdes de risa y sonrisa amplia: trabajo bien hecho",
+    "angry": "Pupilas rojas bajo cejas fruncidas: algo ha sentado muy mal al agente",
+    "wink": "Un ojo cerrado con media sonrisa pícara",
+    "bored": "Parpados a medio cerrar y un bostezo: sin nada que hacer",
+    "tease": "Lengua fuera y ojos de reojo: burlon",
+    "surprise": "Pupilas arriba y boca abierta: noticia inesperada",
+    "heart": "Corazones magenta por ojos: celebración o cariño",
 }
 TOOL_DESC = {
     "set_face": "Mostrar una cara para indicar que esta haciendo Claude",
