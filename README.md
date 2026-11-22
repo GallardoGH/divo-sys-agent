@@ -1,4 +1,42 @@
-﻿# divo-sys
+﻿# divo-sys-agent
+
+> **Fork de [haithamexe/divo-sys](https://github.com/haithamexe/divo-sys)** — todo el credito del disenio, el
+> protocolo reverse-engineered y la base del codigo es de Haitham Jalal y los contribuidores originales (MIT).
+> This is a maintained fork of divo-sys; the upstream project, its author and its license are preserved.
+
+**divo-sys-agent** converts a Divoom Timebox Evo into the face and voice of a personal AI agent. It started life as
+[divo-sys](https://github.com/haithamexe/divo-sys), Haitham's Claude Code status display (forked from upstream
+version 0.3.0), and has diverged into a home of its own: our own pixel faces, a Spanish UI, a warm night light,
+voice output through the speaker, and courtesy rules for the shared Bluetooth radio. Built and used by Chele and
+ZERO, an agent on the OpenClaw platform — but the code is plain Python with **no agent framework requirements**:
+any process can drive it over its local API, CLI, MCP server or hooks.
+
+If you want *the Claude Code status light* exactly as designed: use the original, it is excellent.
+If you want *an agent with a face, a voice and a lamp*: you are in the right fork.
+
+---
+
+## Que es esto (espanol)
+
+Bifurcacion mantenida de **divo-sys** (by Haitham Jalal, MIT): el mismo motor — daemon Bluetooth, panel local,
+politicas, hooks, MCP — con nuestras diferencias:
+
+| | divo-sys (original) | divo-sys-agent (este fork) |
+|---|---|---|
+| Caras | marca Claude (naranja) | 17 caras propias: ojos 6x5, pupila de color por estado, boca, cejas, guiños, corazones (zerofaces.py, revertible) |
+| Panel | ingles | es-ES integrado (copia original en index.html.en) |
+| CLI | face/text/status | + right <0-100>, 
+ightlight on/off, validacion de moods |
+| Voz | — | el agente habla por el altavoz (A2DP dirigido, cortesia de radio con mando/juegos) |
+| Luz | night dimming | **night light**: lampara calida con franja, fundido y pausa de caras (default off) |
+| Extras del anfitrion | — | informe diario del tiempo, icono nativo, reloj al apagarse el PC |
+
+Todo lo demas (engine, protocolo, policy, server, seguridad, instalador) sigue siendo el trabajo original y se
+respeta tal cual. Las mejoras generalizables se aportan aguas arriba primero (PR#1 en el repo original).
+
+---
+
+## divo-sys (original)
 
 **Put Claude Code's status on a Divoom Timebox Evo.** A 16Ã—16 LED speaker becomes a small status light for your AI
 coding sessions: a pixel face in Claude's orange that thinks, works, waves when it needs you, and celebrates when it
