@@ -40,6 +40,9 @@ def defaults():
         "monitors": {"items": [], "alert": True, "interval_s": 30},
         "weather": {"enabled": False, "city": "", "lat": 0.0, "lon": 0.0},
         "night": {"enabled": False, "start": "22:00", "end": "07:00", "brightness": 15},
+        # ZERO fork: warm desk light driven by the daemon itself (window or always; fades in on start).
+        "nightlight": {"enabled": False, "mode": "window", "start": "23:30", "end": "07:30",
+                       "style": "light", "kind": 0, "color": "#FF9A3C", "brightness": 12, "fade_min": 5},
         "reminders": [],
         "rotation": {"items": [
             {"type": "face", "mood": "idle", "seconds": 10},

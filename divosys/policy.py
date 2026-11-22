@@ -10,7 +10,8 @@ PRIVILEGED = {"gui", "system"}
 
 TOOL_FOR = {
     "face": "set_face", "text": "show_text", "frames": "draw_pixels", "brightness": "set_brightness",
-    "mode": "set_mode", "weather": "set_mode", "synctime": "set_mode", "app": "set_mode", "timer": "timer",
+    "mode": "set_mode", "weather": "set_mode", "synctime": "set_mode", "app": "set_mode",
+    "nightlight": "set_mode", "timer": "timer",
     "event": "set_face",  # status events from the hooks
 }
 

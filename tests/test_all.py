@@ -147,6 +147,53 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(self.e.current["mood"], "done")
         self.assertFalse(self.e.log[0]["ok"])
 
+    def test_nightlight_window_on_off_with_pause(self):
+        self.clock.t = 1000.0
+        self.e.settings.patch({"nightlight": {"enabled": True, "mode": "window", "start": "23:30", "end": "07:30",
+                                              "style": "light", "color": "#FF9A3C", "brightness": 12, "fade_min": 0}})
+        now_dt = datetime.datetime(2026, 11, 22, 23, 40)   # inside window
+        self.e.tick(now_dt)
+        self.assertTrue(self.e.nlight_active)
+        # a scene update must NOT paint over the light while it is on
+        self.assertTrue(self.e._scene_blocked(self.clock.t))
+        # leaving the window restores a face
+        self.e.tick(datetime.datetime(2026, 11, 23, 7, 45))
+        self.assertFalse(self.e.nlight_active)
+
+    def test_nightlight_always_and_forced_off(self):
+        self.e.settings.patch({"nightlight": {"enabled": True, "mode": "always"}})
+        self.e.tick(datetime.datetime(2026, 11, 22, 12, 0))
+        self.assertTrue(self.e.nlight_active)
+        self.assertTrue(self.e.handle({"cmd": "nightlight", "action": "off"}, "gui")["ok"])
+        self.assertFalse(self.e.nlight_active)
+        self.e.tick(datetime.datetime(2026, 11, 22, 12, 5))
+        self.assertTrue(self.e.nlight_active)      # window "always" + enabled -> comes back
+        self.assertTrue(self.e.handle({"cmd": "nightlight", "action": "disable"}, "gui")["ok"])
+        self.e.tick(datetime.datetime(2026, 11, 22, 12, 10))
+        self.assertFalse(self.e.nlight_active)
+
+    def test_nightlight_fade_steps(self):
+        self.e.settings.patch({"nightlight": {"enabled": True, "mode": "window", "start": "23:30", "end": "07:30",
+                                              "fade_min": 3}})
+        self.clock.t = 2000.0
+        self.e.tick(datetime.datetime(2026, 11, 22, 23, 40))
+        self.assertTrue(self.e.nlight_active)
+        self.assertEqual(self.e.nlight_fade_step, 0)
+        self.clock.t += 61
+        self.e.tick(datetime.datetime(2026, 11, 22, 23, 41))
+        self.assertEqual(self.e.nlight_fade_step, 1)
+        self.clock.t += 61
+        self.e.tick(datetime.datetime(2026, 11, 22, 23, 42))
+        self.assertEqual(self.e.nlight_fade_step, 2)
+        self.clock.t += 61
+        self.e.tick(datetime.datetime(2026, 11, 22, 23, 43))
+        self.assertEqual(self.e.nlight_fade_step, 2)   # full brightness, no more steps
+
+    def test_nightlight_rejected_from_mcp_without_tool(self):
+        # nightlight maps to set_mode; claude may call it only if the tool is on (default True)
+        r = self.e.handle({"cmd": "nightlight", "action": "enable"}, "mcp")
+        self.assertTrue(r["ok"])
+
     def test_pin_blocks_claude_but_not_gui(self):
         self.e.handle({"cmd": "pin", "value": True}, "gui")
         self.assertIn("denied", self.e.handle({"cmd": "face", "mood": "error"}, "hook"))

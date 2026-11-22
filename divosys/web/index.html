@@ -388,6 +388,16 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
             <label class="switch"><input type="checkbox" role="switch" data-set="night.enabled" aria-label="Modo noche"><span></span></label></div>
           <div class="row"><label class="field">Desde<input type="time" data-set="night.start"></label><label class="field">Hasta<input type="time" data-set="night.end"></label>
             <label class="field">Brillo<input type="number" min="0" max="100" data-set="night.brightness" style="width:90px"></label></div></div>
+        <div class="card stack"><h3>Luz nocturna</h3>
+          <div class="setting" style="border:0;padding:0"><div class="what"><b>Luz calida de mesita</b><small>El altavoz se convierte en lampara tenida dentro de la franja (o siempre). Pausa las caras mientras dura; se desvanece al encenderse.</small></div>
+            <label class="switch"><input type="checkbox" role="switch" data-set="nightlight.enabled" aria-label="Luz nocturna"><span></span></label></div>
+          <div class="row"><label class="field">Cuando<select data-set="nightlight.mode"><option value="window">En horario</option><option value="always">Siempre</option></select></label>
+            <label class="field">Estilo<select data-set="nightlight.style"><option value="light">Color fijo</option><option value="effect">Efecto</option></select></label>
+            <label class="field">Color<input type="text" data-set="nightlight.color" style="width:110px" placeholder="#FF9A3C"></label></div>
+          <div class="row"><label class="field">Desde<input type="time" data-set="nightlight.start"></label><label class="field">Hasta<input type="time" data-set="nightlight.end"></label>
+            <label class="field">Brillo<input type="number" min="1" max="100" data-set="nightlight.brightness" style="width:90px"></label>
+            <label class="field">Fundido min<input type="number" min="0" max="30" data-set="nightlight.fade_min" style="width:90px"></label></div>
+          <p class="muted" style="font-size:12px;margin:0">Ahorro: 0 trafico Bluetooth mientras esta encendida. Tambien por CLI: <code>divo nightlight on|off|enable|disable</code>.</p></div>
         <div class="card stack"><h3>Dormir cuando este inactivo</h3>
           <p class="muted" style="font-size:13px;margin:0">Si una cara puesta por Claude pasa este tiempo sin cambios, aparece la cara dormida. Tu reloj, luz y temporizadores nunca se interrumpen. 0 lo apaga.</p>
           <label class="field">Minutos<input type="number" min="0" max="240" data-set="idle_sleep_minutes" style="width:110px"></label></div>

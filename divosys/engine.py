@@ -41,6 +41,10 @@ class Engine:
         self.quit = threading.Event()
         self.reconnect_flag = False
         self.started = clock()
+        self.nlight_active = False          # night light (fork ZERO) state
+        self.nlight_until = 0.0
+        self.nlight_fade_at = 0.0
+        self.nlight_fade_step = 0
 
         self.pinned = bool(self.settings.snapshot().get("pinned", False))
         self.connected = False
@@ -147,6 +151,8 @@ class Engine:
             self.cmds.append(protocol.time_packet())
             self._log(source, "time synced to PC clock")
             self.cv.notify_all()
+        elif cmd == "nightlight":
+            self._nightlight_request(req, source)
         elif cmd == "pin":
             self.pinned = bool(req.get("value"))
             self.settings.patch({"pinned": self.pinned})
@@ -379,10 +385,12 @@ class Engine:
                 else:
                     self._apply({"cmd": "face", "mood": "idle"}, "system")
             self._check_reminders(now_dt, now)
+            self._nightlight_tick(now_dt, now)
             self._scene_tick(now)
             minutes = self.settings.snapshot()["idle_sleep_minutes"]
             if (minutes > 0 and self.current["source"] in ("hook", "mcp") and self.current["kind"] != "scene"
                     and self.current.get("mood") != "sleep"
+                    and not self.nlight_active
                     and not self.pinned and now - self.last_activity > minutes * 60):
                 self._show_frames(faces.FACES["sleep"], "face · sleep (idle)", "face", "system", None, mood="sleep")
             if self.effective_brightness(now_dt) != self._bright_sent:
@@ -429,7 +437,7 @@ class Engine:
                              self.last_change, self.clock())[0]
 
     def _scene_blocked(self, now):
-        return self.app is not None or now < self.hold_until or self.temp is not None
+        return self.app is not None or now < self.hold_until or self.temp is not None or self.nlight_active
 
     def _new_session(self, sid, now):
         used = {x["color_idx"] for x in self.sessions.values()}
@@ -589,6 +597,69 @@ class Engine:
             self.scene_dirty = True
         else:
             raise ValueError(f"unknown scene action {action!r}")
+
+    # ---- night light (fork ZERO) --------------------------------------------------------
+    def _nightlight_request(self, req, source):
+        """Enable/disable, or force on/off now. Options live in settings["nightlight"]."""
+        action = req.get("action", "enable")
+        s = self.settings.snapshot()["nightlight"]
+        if action == "enable":
+            self.settings.patch({"nightlight": {"enabled": True}})
+            self._nightlight_on(100 if s["fade_min"] <= 0 else 25)   # start bright-ish, fade finishes itself
+            self.nlight_until = self.clock() + 3600 * 24 * 365        # stay until window or disable
+            self._log(source, "night light enabled")
+        elif action == "disable":
+            self.settings.patch({"nightlight": {"enabled": False}})
+            self.nlight_until = 0.0
+            self.nlight_active = False
+            self._apply({"cmd": "face", "mood": "idle"}, "system")
+            self._log(source, "night light disabled")
+        elif action == "on":
+            self.nlight_until = self.clock() + _to_int(req.get("minutes", 0), 0) * 60 + 3600 * 24 * 365
+            self._nightlight_on(100 if s["fade_min"] <= 0 else 25)
+            self._log(source, "night light on now")
+        elif action == "off":
+            self.nlight_until = 0.0
+            self.nlight_active = False
+            self._apply({"cmd": "face", "mood": "idle"}, "system")
+            self._log(source, "night light off now")
+        else:
+            raise ValueError(f"unknown nightlight action {action!r}")
+        self.cv.notify_all()
+
+    def _nightlight_in_window(self, now_dt):
+        s = self.settings.snapshot()["nightlight"]
+        if s["mode"] == "always":
+            return True
+        return policy.in_window(now_dt.strftime("%H:%M"), s["start"], s["end"])
+
+    def _nightlight_on(self, bright_scale):
+        s = self.settings.snapshot()["nightlight"]
+        b = max(1, min(100, int(s["brightness"] * bright_scale / 100)))
+        if s["style"] == "effect":
+            self.cmds.append(protocol.effect_packet(max(0, min(len(protocol.EFFECTS) - 1, int(s["kind"], 0)))))
+        else:
+            self.cmds.append(protocol.light_packet(_rgb(s.get("color"), (255, 154, 60)), b,
+                                                   max(0, min(4, int(s.get("kind", 0)))), True))
+        self.cv.notify_all()
+
+    def _nightlight_tick(self, now_dt, now):
+        s = self.settings.snapshot()["nightlight"]
+        wanted = s["enabled"] and (self._nightlight_in_window(now_dt) or now < self.nlight_until)
+        if wanted and not self.nlight_active:
+            self.nlight_active = True
+            self._nightlight_on(100 if s["fade_min"] <= 0 else 25)
+            self.nlight_fade_at = now + 60 * max(0, s["fade_min"]) // 3   # 1/3, 2/3, full
+            self.nlight_fade_step = 0
+        elif wanted and self.nlight_active:
+            if self.nlight_fade_at and now >= self.nlight_fade_at and self.nlight_fade_step < 2:
+                self.nlight_fade_step += 1
+                self._nightlight_on([25, 60, 100][self.nlight_fade_step])
+                self.nlight_fade_at = now + 60 * max(0, s["fade_min"]) // 3
+        elif not wanted and self.nlight_active:
+            self.nlight_active = False
+            self.nlight_until = 0.0
+            self._apply({"cmd": "face", "mood": "sleep" if now_dt.hour >= 23 or now_dt.hour < 7 else "idle"}, "system")
 
     def _ci_visible(self, now):
         c = self.ci

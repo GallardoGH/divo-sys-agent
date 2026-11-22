@@ -26,6 +26,7 @@ USAGE = """divo-sys {version}
   face <mood>         show a face
   text <message>      scroll a message
   bright <0-100>      set the screen brightness
+  nightlight <on|off|enable|disable>   warm desk light (window or always, see settings)
   status              what is connected and showing
   hook                for Claude Code hooks (reads the event on stdin)
   mcp                 the MCP server (stdio)
@@ -168,6 +169,13 @@ def main(argv):
             print("usage: bright <0-100>")
             return 1
         print(json.dumps(send({"cmd": "brightness", "value": value}, "gui", token=admin_token())))
+    elif cmd == "nightlight" and rest:
+        from .client import send, admin_token
+        a = rest[0].lower()
+        if a not in ("on", "off", "enable", "disable"):
+            print("usage: nightlight <on|off|enable|disable>")
+            return 1
+        print(json.dumps(send({"cmd": "nightlight", "action": a}, "gui", token=admin_token())))
     elif cmd == "status":
         from .client import get
         s = get("/api/state?peek=1")
