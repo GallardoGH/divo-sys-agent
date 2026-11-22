@@ -103,7 +103,7 @@ python divo.py text HELLO            scroll a message
 python divo.py status                what is connected and showing
 ```
 
-## Fork ZERO (GallardoGH/divo-sys-openclaw)
+## Fork ZERO (GallardoGH/divo-sys-agent)
 
 - **Night light (luz nocturna)**: \divo nightlight on|off|enable|disable\ + tarjeta "Luz nocturna" en el panel. Franja horaria o permanente, color/estilo/brillo/fundido configurables (\settings.nightlight\), cero trafico BT mientras dura y pausa caras/escena; al salir de la franja vuelve sleep (noche) o idle.
 - Ramas: \main\ = estable (la usa el runtime), \DESTROYER\ = desarrollo del fork.
