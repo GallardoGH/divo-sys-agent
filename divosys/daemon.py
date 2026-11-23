@@ -41,7 +41,8 @@ def run():
         f.write(server.token)
     engine.settings.patch({"autostart": system.autostart_enabled()})
     engine.start()
-    engine.handle({"cmd": "face", "mood": "splash"}, "system")
+    if not os.environ.get("DIVO_QUIET_START"):   # fork: evitar splash al reiniciar entre locuciones (carrera splash/repintada)
+        engine.handle({"cmd": "face", "mood": "splash"}, "system")
     threading.Thread(target=server.serve_forever, daemon=True).start()
     logging.info("daemon started on %s:%s", HOST, PORT)
     try:
