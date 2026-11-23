@@ -37,6 +37,7 @@ MOOD_DESC = {
     "tease": "Lengua fuera y ojos de reojo: burlon",
     "surprise": "Pupilas arriba y boca abierta: noticia inesperada",
     "heart": "Corazones magenta por ojos: celebración o cariño",
+    "talking": "Boca que se abre y cierra: el agente esta hablando",
 }
 TOOL_DESC = {
     "set_face": "Mostrar una cara para indicar que esta haciendo Claude",

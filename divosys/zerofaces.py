@@ -195,6 +195,19 @@ def build():
     f["splash"] = [([c for row in g for c in row], 1400)]
 
     # ---- extra personalities --------------------------------------------------------
+    # talking: boca que se abre y cierra (la sube el firmware y buclea sola; ver Zero-Speak)
+    f["talking"] = [
+        (E(pupil=CYAN, mouth="open"), 200),
+        (E(pupil=CYAN, mouth="small"), 150),
+        (E(pupil=CYAN, pl=(1, 0), mouth="grin"), 200),
+        (E(pupil=CYAN, pl=(2, 1), mouth="open"), 220),
+        (E(pupil=CYAN, mouth="small"), 150),
+        (E(pupil=CYAN, blink=True, mouth="open"), 120),
+        (E(pupil=CYAN, mouth="open"), 200),
+        (E(pupil=CYAN, pl=(0, 1), mouth="grin"), 220),
+        (E(pupil=CYAN, mouth="small"), 150),
+        (E(pupil=CYAN, mouth="open"), 200),
+    ]
     f["happy"] = f["done"]
     f["angry"] = [
         (E(pupil=RED, mouth="frown", brows=1), 500),
