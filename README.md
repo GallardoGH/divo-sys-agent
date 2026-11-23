@@ -7,8 +7,8 @@
 **divo-sys-agent** converts a Divoom Timebox Evo into the face and voice of a personal AI agent. It started life as
 [divo-sys](https://github.com/haithamexe/divo-sys), Haitham's Claude Code status display (forked from upstream
 version 0.3.0), and has diverged into a home of its own: our own pixel faces, a Spanish UI, a warm night light,
-voice output through the speaker, and courtesy rules for the shared Bluetooth radio. Built and used by Chele and
-ZERO, an agent on the OpenClaw platform — but the code is plain Python with **no agent framework requirements**:
+voice output through the speaker, and courtesy rules for the shared Bluetooth radio. Built and used by the repo owner
+and their personal agent (ZERO), on the OpenClaw platform — but the code is plain Python with **no agent framework requirements**:
 any process can drive it over its local API, CLI, MCP server or hooks.
 
 If you want *the Claude Code status light* exactly as designed: use the original, it is excellent.
