@@ -37,7 +37,7 @@ def _taskbar_identity():
             return str(exe)
     try:
         from . import icon
-        return str(icon.write_icon(DATA_DIR / "panel.ico"))
+        return str(icon.write_bmp_icon(DATA_DIR / "panel.ico"))
     except Exception:
         return None
 
