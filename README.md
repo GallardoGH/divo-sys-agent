@@ -25,8 +25,7 @@ politicas, hooks, MCP — con nuestras diferencias:
 |---|---|---|
 | Caras | marca Claude (naranja) | 17 caras propias: ojos 6x5, pupila de color por estado, boca, cejas, guiños, corazones (zerofaces.py, revertible) |
 | Panel | ingles | es-ES integrado (copia original en index.html.en) |
-| CLI | face/text/status | + right <0-100>, 
-ightlight on/off, validacion de moods |
+| CLI | face/text/status | + bright <0-100>, nightlight on/off, validacion de moods |
 | Voz | — | el agente habla por el altavoz (A2DP dirigido, cortesia de radio con mando/juegos) |
 | Luz | night dimming | **night light**: lampara calida con franja, fundido y pausa de caras (default off) |
 | Extras del anfitrion | — | informe diario del tiempo, icono nativo, reloj al apagarse el PC |
@@ -98,7 +97,7 @@ apps, divo-sys, Uninstall**, or `python divo.py uninstall`.
 | | |
 | --- | --- |
 | ![Live status](docs/img/live-status.jpg) **Live status.** Your open sessions, what each is doing, and which overlays to show. | ![What the agent may do](docs/img/claude-permissions.jpg) **Agent.** The master switch, the tools and faces the agent may use, limits, quiet hours. |
-| ![Faces](docs/img/faces.jpg) **Faces and text.** Ten faces, scrolling messages in any colour. | ![Speaker modes](docs/img/speaker-modes.jpg) **Speaker modes.** The speaker's own clock, light, effects, visualizer, scoreboard. |
+| ![Faces](docs/img/faces.jpg) **Faces and text.** 17 faces (our own design), scrolling messages in any colour. | ![Speaker modes](docs/img/speaker-modes.jpg) **Speaker modes.** The speaker's own clock, light, effects, visualizer, scoreboard. |
 | ![Timers](docs/img/timers.jpg) **Timers and meters.** Countdown and stopwatch, CPU/RAM, network, battery and disk. | ![Monitors](docs/img/monitors.jpg) **Monitors and weather.** Site uptime with alerts, real weather for your city. |
 
 ## Reading the screen
@@ -117,6 +116,7 @@ apps, divo-sys, Uninstall**, or `python divo.py uninstall`.
 | Four small faces | Several sessions are open, each with its own colour stripe |
 
 The full guide, with every option: [docs/live-status.md](docs/live-status.md).
+Speaker modes and community animation options (fork guide, Spanish): [docs/modos-altavoz.md](docs/modos-altavoz.md).
 
 ## The agent's side (OpenClaw and friends)
 
@@ -131,20 +131,23 @@ Two paths, both through the same permission checks:
 ```
 python divo.py setup | uninstall     install or remove the app, hooks, MCP server, startup and icon
 python divo.py build-installer       build divo-sys-setup.exe to give to other people
-python divo.py gui                   open the panel
+python divo.py gui                   open the panel in its own window (native WebView2, no browser tab)
 python divo.py shortcut              put a divo-sys icon on the desktop (or: startmenu, remove)
 python divo.py demo                  try it without a speaker
 python divo.py discover              list paired Divoom speakers and their Bluetooth addresses
 python divo.py start | stop          run or stop the background service
-python divo.py face <mood>           idle thinking working done attention error sleep splash party sweat
+python divo.py face <mood>           one of 17 moods: idle thinking working done attention error
+                                     sleep splash party sweat happy angry wink bored tease surprise heart
+python divo.py bright <0-100>        screen brightness
+python divo.py nightlight <on|off>   warm desk light (fork feature; enable/disable persist it)
 python divo.py text HELLO            scroll a message
 python divo.py status                what is connected and showing
 ```
 
 ## Fork ZERO (GallardoGH/divo-sys-agent)
 
-- **Night light (luz nocturna)**: \divo nightlight on|off|enable|disable\ + tarjeta "Luz nocturna" en el panel. Franja horaria o permanente, color/estilo/brillo/fundido configurables (\settings.nightlight\), cero trafico BT mientras dura y pausa caras/escena; al salir de la franja vuelve sleep (noche) o idle.
-- Ramas: \main\ = estable (la usa el runtime), \DESTROYER\ = desarrollo del fork.
+- **Night light (luz nocturna)**: `divo nightlight on|off|enable|disable` + tarjeta "Luz nocturna" en el panel. Franja horaria o permanente, color/estilo/brillo/fundido configurables (`settings.nightlight`), cero trafico BT mientras dura y pausa caras/escena; al salir de la franja vuelve sleep (noche) o idle.
+- Ramas: `main` = estable (la usa el runtime), `DESTROYER` = desarrollo del fork.
 
 Our changes on top of upstream:
 

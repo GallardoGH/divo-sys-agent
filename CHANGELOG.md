@@ -4,10 +4,9 @@
 
 ## 0.3.0-agent1 (2026-11-22)
 
-- Faces: 17 moods propios (zerofaces.py: ojos 6x5, pupila 2x2 por color de estado, boca/cejas/guiño/corazones). Anulables borrando el bloque final de aces.py.
-- Night light (
-ightlight): lampara calida con franja/always, color, brillo, fundido; pausa caras; CLI divo nightlight on|off|enable|disable; tarjeta en panel. Default OFF.
-- CLI: right <0-100>; ace <mood> valida y lista moods.
+- Faces: 17 moods propios (zerofaces.py: ojos 6x5, pupila 2x2 por color de estado, boca/cejas/guiño/corazones). Anulables borrando el bloque final de faces.py.
+- Night light (nightlight): lampara calida con franja/always, color, brillo, fundido; pausa caras; CLI divo nightlight on|off|enable|disable; tarjeta en panel. Default OFF.
+- CLI: bright <0-100>; face <mood> valida y lista moods.
 - Panel: UI en espanol integrada (original como index.html.en).
 - Test design adaptados al nuevo diseno (175 OK, stdlib puro).
 

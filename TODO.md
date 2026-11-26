@@ -9,6 +9,7 @@ Roadmap del fork como aplicacion propia.rama de trabajo: `DESTROYER`; `main` = e
 
 ## Panel
 - [x] Identidad del fork en el panel: clave `agent` (migrada desde `claude`), `/api/agent` (alias `/api/claude`), textos es/en "el agente"; Claude solo como forma de payloads de hook (26-11). Pendiente retocar descripciones sueltas de paginas si algo chirria (cata por Chele).
+- [ ] Cata "Modos del altavoz" + animaciones de la comunidad: guia preparada en `docs/modos-altavoz.md` (tabla de modos nativos, como configurar cada uno, limitacion de un solo controlador BT para la app del movil, pipeline propio PNG/GIF→frames). Decision Chele tras la cata: que merece tarjeta rapida/rotacion y si se prueba el flujo app-movil.
 - [ ] Tarjeta "Audio": exposicion de las palancas del pipeline de voz por altavoz (segmentacion en silencios, gaps, filtro, compresor, normalizacion, umbral de verificacion) + boton "test de audio" que mide el enlace y saca verde/rojo.
 - [ ] Selector de "agente" (OpenClaw principal, Opencode opcional; Claude Code queda fuera de la integracion por defecto, hooks off).
 
