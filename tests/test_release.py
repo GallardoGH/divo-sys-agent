@@ -136,7 +136,7 @@ class SetupHooks(unittest.TestCase):
     def test_missing_file_is_an_empty_object(self):
         self.assertEqual(setup_cmd.read_settings(Path(tempfile.mkdtemp()) / "nope.json"), {})
 
-    def test_claude_dir_honours_the_environment(self):
+    def test_agent_hook_dir_honours_the_environment(self):
         with mock.patch.dict(os.environ, {"CLAUDE_CONFIG_DIR": "/somewhere/else"}):
             self.assertEqual(setup_cmd.claude_dir(), Path("/somewhere/else"))
 

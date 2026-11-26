@@ -58,17 +58,17 @@ class Engine:
         self.temp = None         # {"until", "restore"} while a reminder is flashing
         self.app = None          # running live app: {"name", "params", "state"}
         self.scoreboard = {"red": 0, "blue": 0}
-        self.last_change = 0.0   # last time Claude changed something
+        self.last_change = 0.0   # last time the agent changed something
         self.last_activity = clock()
         self.events = []         # one-shot notices for the GUI (timer finished...)
         self._fired = set()
         self._bright_sent = None
         self._last_discover = 0.0
         self._last_tick_error = None
-        # Claude Code live status
+        # agent live status (OpenClaw)
         self.sessions = {}
         self.scene_active = False
-        self.hold_until = 0.0     # a display set by you (or Claude's tools) keeps the live status away until then
+        self.hold_until = 0.0     # a display set by you (or the agent's tools) keeps the live status away until then
         self.flash = None         # brief reaction (party, tests, glitch) drawn over the live status
         self.scene_dirty = False
         self.scene_last = 0.0
@@ -93,7 +93,7 @@ class Engine:
         with self.cv:
             if req.get("cmd") == "event":
                 return self._handle_event(req, source)
-            cfg = self.settings.snapshot()["claude"]
+            cfg = self.settings.snapshot()["agent"]
             ok, reason, req = policy.decide(cfg, req, source, self.pinned, datetime.datetime.now(),
                                             self.last_change, self.clock())
             if not ok:
@@ -214,7 +214,7 @@ class Engine:
         else:
             self.scene_active = False
             if source in ("gui", "mcp") and kind != "app":
-                # what you (or Claude's tools) put on screen is not stomped by the automatic status right away
+                # what you (or the agent) put on screen is not stomped by the automatic status right away
                 self.hold_until = float("inf") if (source == "gui" and kind == "mode") else \
                     self.clock() + self.settings.snapshot()["scene"]["hold_seconds"]
         self.out = {"version": self.out["version"] + 1, "packets": packets}
@@ -417,7 +417,7 @@ class Engine:
             self.temp = {"until": now + secs, "restore": restore}
             self.events.append({"type": "reminder", "label": text or "reminder", "t": now})
 
-    # ---- Claude Code live status ---------------------------------------------------------
+    # ---- agent live status (OpenClaw) ---------------------------------------------------------
     def _handle_event(self, req, source):
         if source not in ("hook", "gui", "system"):
             return {"ok": False, "denied": "only the status hooks may send events", "connected": self.connected}
@@ -432,7 +432,7 @@ class Engine:
         return {"ok": True, "connected": self.connected}
 
     def _scene_allowed(self):
-        cfg = self.settings.snapshot()["claude"]
+        cfg = self.settings.snapshot()["agent"]
         return policy.decide(cfg, {"cmd": "event"}, "hook", self.pinned, datetime.datetime.now(),
                              self.last_change, self.clock())[0]
 
@@ -448,7 +448,7 @@ class Engine:
 
     def _flash(self, mood_key, frames, secs, now):
         cfg = self.settings.snapshot()
-        if not cfg["scene"]["reactions"] or (mood_key and not cfg["claude"]["moods"].get(mood_key, True)):
+        if not cfg["scene"]["reactions"] or (mood_key and not cfg["agent"]["moods"].get(mood_key, True)):
             return
         self.flash = {"frames": frames, "until": now + secs}
 
@@ -537,19 +537,19 @@ class Engine:
         if self._scene_blocked(now):
             s = self.sessions.get(str(ev.get("session") or "default")[:64])
             if (ev.get("event") == "Notification" and s and s["state"] == "attention" and self.temp is None
-                    and self.settings.snapshot()["claude"]["moods"].get("attention", True)):
+                    and self.settings.snapshot()["agent"]["moods"].get("attention", True)):
                 # you need to act: break through whatever is on screen for a few seconds, then go back
                 restore = self.restore_req
-                self._show_frames(faces.FACES["attention"], "Claude needs you", "face", "hook", None, keep_app=True)
+                self._show_frames(faces.FACES["attention"], "Agent needs you", "face", "hook", None, keep_app=True)
                 self.temp = {"until": now + 8, "restore": restore}
             return
         self._render_scene(now)
 
     def _render_scene(self, now, force=False):
         snap = self.settings.snapshot()
-        ctx = {"now": now, "cfg": snap["scene"], "moods": snap["claude"]["moods"], "ci": self._ci_visible(now)}
+        ctx = {"now": now, "cfg": snap["scene"], "moods": snap["agent"]["moods"], "ci": self._ci_visible(now)}
         if self.flash and now < self.flash["until"]:
-            frames, label = self.flash["frames"], "Claude · reaction"
+            frames, label = self.flash["frames"], "Agent · reaction"
         else:
             self.flash = None
             frames, label = scene.render(list(self.sessions.values()), ctx)
@@ -590,7 +590,7 @@ class Engine:
         action = req.get("action")
         if action == "resume":
             self.app, self.temp, self.flash, self.hold_until = None, None, None, 0.0
-            self._log(source, "Claude's live status resumed")
+            self._log(source, "Agent live status resumed")
             self._render_scene(self.clock(), force=True)
         elif action == "dismiss_ci":
             self.ci = None

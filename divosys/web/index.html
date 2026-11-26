@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="divo-token" content="__TOKEN__">
-<title>divo-sys</title>
+<title>ZERO EVO · Panel</title>
 <style>
 :root {
   --bg: #f7f3ed; --surface: #ffffff; --surface-2: #f1ebe2; --ink: #211b17; --muted: #6b6159; --line: #e3dacd;
@@ -128,7 +128,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
 <body>
 
 <header class="top">
-  <div class="brand"><i></i>divo-sys</div>
+  <div class="brand"><i></i>ZERO EVO Panel</div>
   <div class="now">
     <canvas id="miniScreen" class="led" aria-hidden="true"></canvas>
     <div class="txt">
@@ -137,7 +137,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
     </div>
   </div>
   <div class="quick">
-    <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="claudeSwitch"><span></span></span> Claude control</label>
+    <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="agentSwitch"><span></span></span> Control del agente</label>
     <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="pinSwitch"><span></span></span> Pin display</label>
     <button class="btn" id="themeBtn" aria-label="Switch light or dark theme">Tema</button>
   </div>
@@ -147,7 +147,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
   <nav aria-label="Sections" id="nav">
     <button data-tab="dash">Panel</button>
     <button data-tab="live">Estado en vivo</button>
-    <button data-tab="claude">Claude</button>
+    <button data-tab="agent">Agente</button>
     <button data-tab="faces">Caras y texto</button>
     <button data-tab="modes">Modos del altavoz</button>
     <button data-tab="apps">Temporizadores y medidores</button>
@@ -184,7 +184,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
       </div>
       <div class="card">
         <h3>Actividad</h3>
-        <p class="muted" style="font-size:13px">Todo lo que cambio la pantalla, y lo que Claude intento y tus ajustes bloquearon.</p>
+        <p class="muted" style="font-size:13px">Todo lo que cambio la pantalla, y lo que el agente intento y tus ajustes bloquearon.</p>
         <ul class="log" id="log"></ul>
       </div>
     </section>
@@ -192,7 +192,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
     <!-- LIVE STATUS -->
     <section id="tab-live" hidden>
       <h2>Estado en vivo</h2>
-      <p class="muted">Como muestra el altavoz lo que hacen tus sesiones de Claude Code. Sigue a los hooks el solo.</p>
+      <p class="muted">Como muestra el altavoz lo que hacen tus sesiones del agente (OpenClaw y otros). Sigue a los hooks el solo.</p>
       <div class="card"><div class="row between"><h3 style="margin:0">Sesiones</h3><button class="btn" id="resumeBtn2">Reanudar estado en vivo</button></div>
         <div id="sessionList"></div></div>
       <div class="card" id="ciCard" hidden><div class="row between"><div><h3 style="margin-bottom:var(--s1)">Build tras tu ultimo push</h3><div id="ciText"></div></div><button class="btn" id="ciDismiss">Descartar</button></div></div>
@@ -204,12 +204,12 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
           <div class="setting"><div class="what"><b>Puntos de sub-agentes</b><small>Un punto arriba por cada sub-agente en marcha.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.agent_dots" aria-label="Puntos de sub-agentes"><span></span></label></div>
           <div class="setting"><div class="what"><b>Punto de build</b><small>Un cuadrado en la esquina que sigue la ejecucion de GitHub Actions tras un push.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.ci_dot" aria-label="Punto de build"><span></span></label></div>
           <div class="setting"><div class="what"><b>Reacciones</b><small>Confeti y un glitch cuando una herramienta falla. Apagado oculta tambien los resultados de tests.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.reactions" aria-label="Reacciones"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Resultados de tests</b><small>Un numero grande de tests superados sobre una barra verde y roja unos segundos despues de que Claude ejecute tus tests. Apagado muestra confeti o glitch en su lugar.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.test_results" aria-label="Resultados de tests"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Resultados de tests</b><small>Un numero grande de tests superados sobre una barra verde y roja unos segundos despues de que el agente ejecute tus tests. Apagado muestra confeti o glitch en su lugar.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.test_results" aria-label="Resultados de tests"><span></span></label></div>
           <div class="setting"><div class="what"><b>Reloj de tiempo pasado</b><small>Minutos sobre segundos desde que enviaste el prompt, mostrado en el ciclo tras 20 segundos de trabajo.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.elapsed_clock" aria-label="Reloj de tiempo pasado"><span></span></label></div>
         </div>
         <div class="card stack"><h3>Tiempos</h3>
           <label class="field">Empezar a sudar cuando una tarea lleva este tiempo (segundos)<input type="number" min="30" max="3600" data-set="scene.sweat_after_s"></label>
-          <label class="field">Una cara que tu o Claude elijais permanece este tiempo antes de volver al estado en vivo (segundos)<input type="number" min="0" max="600" data-set="scene.hold_seconds"></label>
+          <label class="field">Una cara que tu o el agente elijais permanece este tiempo antes de volver al estado en vivo (segundos)<input type="number" min="0" max="600" data-set="scene.hold_seconds"></label>
         </div>
       </div>
       <div class="card"><h3>Iconos de herramientas</h3><p class="muted small">Si apagas una, esa herramienta muestra solo la cara. El interruptor de Iconos de herramientas de arriba las apaga todas.</p><div class="faces" id="glyphGallery"></div></div>
@@ -219,40 +219,40 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
           <li><b>Puntos arriba a la izquierda:</b> running sub-agents.</li>
           <li><b>Cuadrado arriba a la derecha:</b> the build after a push. Amber blinking is running, green passed, red failed.</li>
           <li><b>Gotas de sudor:</b> the task has been running a long time.</li>
-          <li><b>Saltando y saludando, con destellos amarillos:</b> Claude is waiting on you. It breaks through a clock or timer for a few seconds, then goes back.</li>
+          <li><b>Saltando y saludando, con destellos amarillos:</b> The agent is waiting on you. It breaks through a clock or timer for a few seconds, then goes back.</li>
           <li><b>Confeti:</b> salio un push o se ejecutaron tests. <b>Un numero grande sobre una barra:</b> resultados de tests. <b>Glitch:</b> a tool failed.</li>
           <li><b>Tablero:</b> each small face has a coloured stripe on top that matches the colour in the session list above.</li>
         </ul></div>
     </section>
 
-    <!-- CLAUDE -->
-    <section id="tab-claude" hidden>
-      <h2>Que puede hacer Claude</h2>
-      <p class="muted">Estas reglas se aplican a las herramientas de Claude y a los hooks automaticos de estado. Tus clics en este panel nunca se limitan. Una peticion bloqueada aparece en Actividad, y Claude recibe el motivo.</p>
+    <!-- AGENTE -->
+    <section id="tab-agent" hidden>
+      <h2>Que puede hacer el agente</h2>
+      <p class="muted">Estas reglas se aplican a las herramientas del agente y a los hooks automaticos de estado. Tus clics en este panel nunca se limitan. Una peticion bloqueada aparece en Actividad, y el agente recibe el motivo.</p>
       <div class="card">
-        <div class="setting"><div class="what"><b>Control de Claude</b><small>Interruptor general. Apagado significa que Claude y los hooks no pueden tocar la pantalla para nada.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.enabled" aria-label="Control de Claude"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Caras automaticas de estado</b><small>Caras que siguen lo que hace Claude Code (pensando, trabajando, hecho, te necesita). Sin llamar a ninguna herramienta.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.hooks" aria-label="Caras automaticas de estado"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Claude puede ignorar una pantalla fijada</b><small>Normalmente fijar bloquea a Claude por completo.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.override_pin" aria-label="Override pin"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Control del agente</b><small>Interruptor general. Apagado significa que el agente y los hooks no pueden tocar la pantalla para nada.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="agent.enabled" aria-label="Control del agente"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Caras automaticas de estado</b><small>Caras que siguen lo que hace el agente (pensando, trabajando, hecho, te necesita). Sin llamar a ninguna herramienta.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="agent.hooks" aria-label="Caras automaticas de estado"><span></span></label></div>
+        <div class="setting"><div class="what"><b>El agente puede ignorar una pantalla fijada</b><small>Normalmente fijar bloquea al agente por completo.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="agent.override_pin" aria-label="Override pin"><span></span></label></div>
       </div>
-      <div class="card"><h3>Herramientas que Claude puede llamar</h3><div id="toolList"></div></div>
-      <div class="card"><h3>Caras que Claude puede mostrar</h3>
-        <p class="muted" style="font-size:13px">Apaga una cara y Claude ya no podra mostrarla (los hooks tambien la saltan).</p>
+      <div class="card"><h3>Herramientas que el agente puede llamar</h3><div id="toolList"></div></div>
+      <div class="card"><h3>Caras que el agente puede mostrar</h3>
+        <p class="muted" style="font-size:13px">Apaga una cara y el agente ya no podra mostrarla (los hooks tambien la saltan).</p>
         <div class="faces" id="moodToggles"></div></div>
       <div class="grid">
         <div class="card stack"><h3>Limites</h3>
-          <label class="field">Segundos minimos entre los cambios de Claude<input type="number" min="0" max="60" step="0.5" data-set="claude.min_interval_s"></label>
-          <label class="field">Mensaje con scroll mas largo (caracteres)<input type="number" min="1" max="60" data-set="claude.max_text_chars"></label>
-          <div class="row"><label class="field">Brillo minimo que Claude puede poner<input type="number" min="0" max="100" data-set="claude.brightness_min"></label>
-            <label class="field">Brillo maximo que Claude puede poner<input type="number" min="0" max="100" data-set="claude.brightness_max"></label></div>
+          <label class="field">Segundos minimos entre los cambios del agente<input type="number" min="0" max="60" step="0.5" data-set="agent.min_interval_s"></label>
+          <label class="field">Mensaje con scroll mas largo (caracteres)<input type="number" min="1" max="60" data-set="agent.max_text_chars"></label>
+          <div class="row"><label class="field">Brillo minimo que el agente puede poner<input type="number" min="0" max="100" data-set="agent.brightness_min"></label>
+            <label class="field">Brillo maximo que el agente puede poner<input type="number" min="0" max="100" data-set="agent.brightness_max"></label></div>
         </div>
         <div class="card stack"><h3>Horas tranquilas</h3>
-          <div class="setting" style="border:0;padding:0"><div class="what"><b>Bloquear a Claude en estas horas</b><small>La pantalla conserva lo que este mostrando.</small></div>
-            <label class="switch"><input type="checkbox" role="switch" data-set="claude.quiet_hours.enabled" aria-label="Horas tranquilas"><span></span></label></div>
-          <div class="row"><label class="field">Desde<input type="time" data-set="claude.quiet_hours.start"></label>
-            <label class="field">Hasta<input type="time" data-set="claude.quiet_hours.end"></label></div>
+          <div class="setting" style="border:0;padding:0"><div class="what"><b>Bloquear al agente en estas horas</b><small>La pantalla conserva lo que este mostrando.</small></div>
+            <label class="switch"><input type="checkbox" role="switch" data-set="agent.quiet_hours.enabled" aria-label="Horas tranquilas"><span></span></label></div>
+          <div class="row"><label class="field">Desde<input type="time" data-set="agent.quiet_hours.start"></label>
+            <label class="field">Hasta<input type="time" data-set="agent.quiet_hours.end"></label></div>
         </div>
       </div>
     </section>
@@ -260,7 +260,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
     <!-- FACES AND TEXT -->
     <section id="tab-faces" hidden>
       <h2>Caras y texto</h2>
-      <div class="card"><h3>Caras de Claude</h3><p class="muted" style="font-size:13px">Pulsa una para mostrarla en el altavoz.</p><div class="faces" id="faceGallery"></div></div>
+      <div class="card"><h3>Caras del agente</h3><p class="muted" style="font-size:13px">Pulsa una para mostrarla en el altavoz.</p><div class="faces" id="faceGallery"></div></div>
       <div class="card stack"><h3>Mensaje con scroll</h3>
         <div class="row">
           <label class="field" style="flex:1; min-width:200px">Mensaje<input type="text" id="msgText" maxlength="60" placeholder="BACK IN 5 MIN"></label>
@@ -399,7 +399,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
             <label class="field">Fundido min<input type="number" min="0" max="30" data-set="nightlight.fade_min" style="width:90px"></label></div>
           <p class="muted" style="font-size:12px;margin:0">Ahorro: 0 trafico Bluetooth mientras esta encendida. Tambien por CLI: <code>divo nightlight on|off|enable|disable</code>.</p></div>
         <div class="card stack"><h3>Dormir cuando este inactivo</h3>
-          <p class="muted" style="font-size:13px;margin:0">Si una cara puesta por Claude pasa este tiempo sin cambios, aparece la cara dormida. Tu reloj, luz y temporizadores nunca se interrumpen. 0 lo apaga.</p>
+          <p class="muted" style="font-size:13px;margin:0">Si una cara puesta por el agente pasa este tiempo sin cambios, aparece la cara dormida. Tu reloj, luz y temporizadores nunca se interrumpen. 0 lo apaga.</p>
           <label class="field">Minutos<input type="number" min="0" max="240" data-set="idle_sleep_minutes" style="width:110px"></label></div>
       </div>
     </section>
@@ -426,7 +426,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
         <p class="muted small">El servicio funciona en segundo plano sin ventana. Pon un icono donde puedas pulsarlo para volver aqui.</p>
         <div class="row"><button class="btn" id="addShortcut">Anadir acceso directo al escritorio</button><button class="btn" id="addStartMenu">Anadir al menu Inicio</button></div></div>
       <div class="card"><h3>Servicio en segundo plano</h3>
-        <p class="muted" style="font-size:13px">Mantiene el enlace Bluetooth. Pararlo libera el altavoz para la app del movil; se reinicia la proxima vez que Claude o este panel lo necesiten.</p>
+        <p class="muted" style="font-size:13px">Mantiene el enlace Bluetooth. Pararlo libera el altavoz para la app del movil; se reinicia la proxima vez que el agente o este panel lo necesiten.</p>
         <button class="btn danger" id="quitBtn">Detener servicio</button></div>
     </section>
   </main>
@@ -529,10 +529,10 @@ function renderSettings() {
     if (v === undefined || document.activeElement === i) return;
     if (i.type === 'checkbox') i.checked = !!v; else i.value = v;
   });
-  $$('[data-tool]').forEach((i) => (i.checked = !!SETTINGS.claude.tools[i.dataset.tool]));
-  $$('[data-mood]').forEach((i) => (i.checked = !!SETTINGS.claude.moods[i.dataset.mood]));
+  $$('[data-tool]').forEach((i) => (i.checked = !!SETTINGS.agent.tools[i.dataset.tool]));
+  $$('[data-mood]').forEach((i) => (i.checked = !!SETTINGS.agent.moods[i.dataset.mood]));
   $$('[data-glyph]').forEach((i) => (i.checked = SETTINGS.scene.tool_pictures[i.dataset.glyph] !== false));
-  $('#claudeSwitch').checked = SETTINGS.claude.enabled;
+  $('#agentSwitch').checked = SETTINGS.agent.enabled;
   renderReminders(); renderRotation(); renderMonitors();
 }
 document.addEventListener('change', (e) => {
@@ -541,11 +541,11 @@ document.addEventListener('change', (e) => {
     let v = i.type === 'checkbox' ? i.checked : i.type === 'number' ? Number(i.value) : i.value;
     if (i.type === 'number' && !Number.isFinite(v)) return;
     saveSettings(patchFor(i.dataset.set, v));
-  } else if (i.dataset.tool) saveSettings({ claude: { tools: { [i.dataset.tool]: i.checked } } });
-  else if (i.dataset.mood) saveSettings({ claude: { moods: { [i.dataset.mood]: i.checked } } });
+  } else if (i.dataset.tool) saveSettings({ agent: { tools: { [i.dataset.tool]: i.checked } } });
+  else if (i.dataset.mood) saveSettings({ agent: { moods: { [i.dataset.mood]: i.checked } } });
   else if (i.dataset.glyph) saveSettings({ scene: { tool_pictures: { [i.dataset.glyph]: i.checked } } });
 });
-$('#claudeSwitch').addEventListener('change', (e) => saveSettings({ claude: { enabled: e.target.checked } }));
+$('#agentSwitch').addEventListener('change', (e) => saveSettings({ agent: { enabled: e.target.checked } }));
 $('#pinSwitch').addEventListener('change', (e) => cmd({ cmd: 'pin', value: e.target.checked }));
 
 /* ---- state polling ---- */
@@ -750,20 +750,20 @@ function renderLive(s) {
   $('#heldBanner').hidden = !held;
   if (held) {
     const why = s.app ? 'a ' + s.app.name + ' is running' : s.scene.holding_for === 'forever' ? 'you chose a speaker mode'
-      : 'a face you or Claude picked stays for ' + s.scene.holding_for + ' segundos mas';
-    $('#heldText').textContent = "El estado en vivo de Claude esta en pausa: " + why + '.';
+      : 'a face you or the agent picked stays for ' + s.scene.holding_for + ' segundos mas';
+    $('#heldText').textContent = "El estado en vivo del agente esta en pausa: " + why + '.';
   }
   const ss = s.sessions;
   $('#sessionSummary').textContent = ss.length
-    ? (ss.length === 1 ? '1 Claude session: ' : ss.length + ' Claude sessions: ') + ss.map((x) => (x.project || 'session') + ' ' + STATE_TEXT[x.state]).join(', ')
-    : 'Todavia no hay sesiones de Claude. Aparecen en cuanto Claude Code trabaja.';
+    ? (ss.length === 1 ? '1 sesion del agente: ' : ss.length + ' sesiones del agente: ') + ss.map((x) => (x.project || 'session') + ' ' + STATE_TEXT[x.state]).join(', ')
+    : 'Todavia no hay sesiones del agente. Aparecen en cuanto OpenClaw (u otro agente) trabaja.';
   const sig = JSON.stringify(ss.map((x) => [x.id, x.state, x.tool, x.agents, Math.floor((x.elapsed || 0) / 5), Math.floor((x.waiting_for || 0) / 5), Math.floor(x.idle_for / 30)]));
   setList($('#sessionList'), sig, () => ss.length ? ss.map((x) => el('div', { class: 'setting' },
     el('div', { class: 'what' }, el('b', {}, el('span', { class: 'sw', style: 'background:rgb(' + x.color.join(',') + ')' }), x.project || 'session'),
       el('small', {}, [x.state === 'working' && x.tool ? 'using ' + x.tool : '', x.agents ? x.agents + ' sub-agent' + (x.agents > 1 ? 's' : '') : '',
         x.elapsed != null ? 'tarea en marcha ' + dur(x.elapsed) : '', x.waiting_for != null ? 'esperandote desde hace ' + dur(x.waiting_for) : '',
         'ultima actividad ' + dur(x.idle_for) + ' ago'].filter(Boolean).join(' · '))),
-    el('span', { class: 'badge' }, STATE_TEXT[x.state]))) : [el('div', { class: 'empty' }, 'Nada todavia. Las sesiones aparecen aqui cuando Claude Code ejecuta sus hooks.')]);
+    el('span', { class: 'badge' }, STATE_TEXT[x.state]))) : [el('div', { class: 'empty' }, 'Nada todavia. Las sesiones aparecen aqui cuando el agente ejecuta sus hooks.')]);
   $('#ciCard').hidden = !s.ci;
   if (s.ci) $('#ciText').textContent = s.ci.repo + '@' + s.ci.branch + ' (' + s.ci.sha + '): ' + ({ waiting: 'esperando a que empiece la ejecucion', running: 'running', success: 'passed', failure: 'failed' }[s.ci.state] || s.ci.state);
   renderMonitors();

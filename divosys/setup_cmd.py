@@ -1,4 +1,4 @@
-"""`python divo.py setup` and `uninstall`: wire divo-sys into Windows and Claude Code in one step.
+"""`python divo.py setup` and `uninstall`: wire divo-sys into Windows and the coding agent in one step.
 
 Everything that touches your own configuration is idempotent, keeps a backup of settings.json, and refuses to
 overwrite a settings file it cannot parse.
@@ -225,7 +225,7 @@ def setup(app=True, hooks=True, mcp=True, autostart=True, shortcut=True, say=pri
         client.send({"cmd": "face", "mood": "splash"}, "mcp")
     except ConnectionError:
         pass
-    say("Done. Restart Claude Code so it picks up the hooks and the MCP server, and open the panel with: python divo.py gui")
+    say("Done. Restart your coding agent so it picks up the hooks and the MCP server, and open the panel with: python divo.py gui")
     return 0
 
 

@@ -27,7 +27,7 @@ MOOD_DESC = {
     "attention": "Saltando y saludando, ojos abiertos, destellos amarillos: te necesita",
     "error": "Ojos en X: algo fallo",
     "sleep": "Atenuado, ojos cerrados, z flotando: sesion terminada o inactiva",
-    "splash": "La estrella de Claude",
+    "splash": "La estrella de bienvenida",
     "party": "Sombrero de fiesta, brazos vitoreando, confeti: celebracion",
     "sweat": "Preocupado con gotas de sudor: una tarea larga sigue en marcha",
     "happy": "Ojos verdes de risa y sonrisa amplia: trabajo bien hecho",
@@ -40,7 +40,7 @@ MOOD_DESC = {
     "talking": "Boca que se abre y cierra: el agente esta hablando",
 }
 TOOL_DESC = {
-    "set_face": "Mostrar una cara para indicar que esta haciendo Claude",
+    "set_face": "Mostrar una cara para indicar que esta haciendo el agente (OpenClaw)",
     "show_text": "Deslizar un mensaje corto de estado",
     "draw_pixels": "Dibuja pixel art o animacion a medida",
     "set_brightness": "Change the screen brightness",
@@ -148,8 +148,8 @@ def make_server(engine, host=HOST, port=PORT, on_quit=None):
                 return self._send(200, engine.get_preview())
             if path == "/api/meta":
                 return self._send(200, meta())
-            if path == "/api/claude":  # read-only permission summary, for Claude's own status tool
-                s = engine.settings.snapshot()["claude"]
+            if path in ("/api/agent", "/api/claude"):  # read-only permission summary for the agent's status tool (old alias)
+                s = engine.settings.snapshot()["agent"]
                 st = engine.state(drain=False)
                 return self._send(200, {"permissions": s, "pinned": st["pinned"], "connected": st["connected"],
                                         "showing": st["current"]["label"]})

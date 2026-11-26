@@ -3,12 +3,12 @@
 Roadmap del fork como aplicacion propia.rama de trabajo: `DESTROYER`; `main` = estable.
 
 ## Identidad y empaquetado
-- [ ] Ventana nativa del panel: `divo-sys-agent.exe` (launcher WebView2/pywebview, icono, titulo, menu propios) en lugar de pestana de navegador.
+- [x] Ventana nativa del panel: `divo.py gui` abre ventana WebView2 propia (`divosys/panel.py`, 26-11; fallback Edge/Chrome --app). Falta renombrar el exe del launcher a `divo-sys-agent.exe` (punto siguiente).
 - [ ] Renombrar por dentro: divo-sys -> divo-sys-agent (exe, entrada de autostart, nombre en Apps de Windows, datos en %LOCALAPPDATA%) sin romper instalaciones existentes (migracion de settings).
 - [ ] `divo-sys-agent-setup.exe` publicable con version/checksum del fork (a la vez que se decide si se publica como release).
 
 ## Panel
-- [ ] Revisar y retocar las 7 paginas con identidad del fork (texto "agente" donde hoy dice Claude; descripciones coherentes con las caras nuevas).
+- [x] Identidad del fork en el panel: clave `agent` (migrada desde `claude`), `/api/agent` (alias `/api/claude`), textos es/en "el agente"; Claude solo como forma de payloads de hook (26-11). Pendiente retocar descripciones sueltas de paginas si algo chirria (cata por Chele).
 - [ ] Tarjeta "Audio": exposicion de las palancas del pipeline de voz por altavoz (segmentacion en silencios, gaps, filtro, compresor, normalizacion, umbral de verificacion) + boton "test de audio" que mide el enlace y saca verde/rojo.
 - [ ] Selector de "agente" (OpenClaw principal, Opencode opcional; Claude Code queda fuera de la integracion por defecto, hooks off).
 

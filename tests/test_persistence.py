@@ -119,7 +119,7 @@ class ChoicesSurviveARestart(unittest.TestCase):
     def test_every_kind_of_choice_round_trips(self):
         path = os.path.join(tempfile.mkdtemp(), "s.json")
         a = Settings(path)
-        a.patch({"claude": {"override_pin": True, "enabled": False, "tools": {"show_text": False},
+        a.patch({"agent": {"override_pin": True, "enabled": False, "tools": {"show_text": False},
                             "moods": {"error": False}, "quiet_hours": {"enabled": True, "start": "22:30"}},
                  "scene": {"heartbeat": False, "elapsed_clock": True, "tool_pictures": {"bash": False}},
                  "night": {"enabled": True, "brightness": 12}, "brightness": 55, "idle_sleep_minutes": 3,
@@ -128,12 +128,12 @@ class ChoicesSurviveARestart(unittest.TestCase):
                  "weather": {"enabled": True, "city": "Testville", "lat": 1.5, "lon": 2.5},
                  "device": {"address": "AA:BB:CC:DD:EE:FF"}})
         b = Settings(path).snapshot()  # a fresh start reading the same file
-        self.assertTrue(b["claude"]["override_pin"])
-        self.assertFalse(b["claude"]["enabled"])
-        self.assertFalse(b["claude"]["tools"]["show_text"])
-        self.assertTrue(b["claude"]["tools"]["set_face"])          # what was not changed stays on
-        self.assertFalse(b["claude"]["moods"]["error"])
-        self.assertEqual(b["claude"]["quiet_hours"], {"enabled": True, "start": "22:30", "end": "07:00"})
+        self.assertTrue(b["agent"]["override_pin"])
+        self.assertFalse(b["agent"]["enabled"])
+        self.assertFalse(b["agent"]["tools"]["show_text"])
+        self.assertTrue(b["agent"]["tools"]["set_face"])          # what was not changed stays on
+        self.assertFalse(b["agent"]["moods"]["error"])
+        self.assertEqual(b["agent"]["quiet_hours"], {"enabled": True, "start": "22:30", "end": "07:00"})
         self.assertFalse(b["scene"]["heartbeat"])
         self.assertTrue(b["scene"]["elapsed_clock"])
         self.assertFalse(b["scene"]["tool_pictures"]["bash"])

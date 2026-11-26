@@ -13,6 +13,9 @@ ightlight): lampara calida con franja/always, color, brillo, fundido; pausa cara
 
 ## Unreleased
 
+- **Identidad OpenClaw (26-11)**: bloque de permisos `settings["agent"]` (migra desde el antiguo `"claude"` al leer), `/api/agent` con alias `/api/claude`, textos del panel (es + en) y del MCP/descripciones referidos a "el agente". Claude Code queda solo como forma de los payloads de hook y como via opcional `setup --hooks`; la integracion de referencia es OpenClaw.
+- **Panel en ventana propia (26-11)**: `divo.py gui` abre una ventana nativa WebView2 via `divosys/panel.py` (pywebview opcional, tema guardado en `LOCALAPPDATA/divo-sys/webview`); fallback Edge/Chrome `--app`, ultimo recurso navegador por defecto. Cerrar la ventana NO para el daemon. Tests nuevos en `tests/test_panel.py`.
+
 - **The attention face no longer flashes white.** It now hops with its arms waving and yellow sparkles around it, so it still
   catches the eye without a blinding frame. The "Flash if Claude has waited on you"
   setting is gone.

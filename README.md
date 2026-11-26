@@ -48,9 +48,9 @@ Windows, Python 3.9+, **no third-party packages**. No cloud, no account: everyth
 
 ## What it does
 
-- **Shows what Claude is doing, live.** Thinking, working (with a picture of the tool in use), waiting on you, done,
+- **Shows what the agent is doing, live.** Thinking, working (with a picture of the tool in use), waiting on you, done,
   failed. One face for one session, a small board of faces when several are open.
-- **Lets you set the rules.** Claude's tools and hooks go through a permission layer you control: a master switch, a
+- **Lets you set the rules.** The agent's tools and hooks go through a permission layer you control: a master switch, a
   switch per tool and per face, rate limits, quiet hours, and a Pin that locks the screen.
 - **Does more than status.** Timers with a progress bar, a CPU/RAM meter, a network latency graph, battery and disk
   bars, site uptime monitoring, real weather, reminders, night dimming, and the speaker's own clock, light, effects,
@@ -97,7 +97,7 @@ apps, divo-sys, Uninstall**, or `python divo.py uninstall`.
 
 | | |
 | --- | --- |
-| ![Live status](docs/img/live-status.jpg) **Live status.** Your open sessions, what each is doing, and which overlays to show. | ![What Claude may do](docs/img/claude-permissions.jpg) **Claude.** The master switch, the tools and faces Claude may use, limits, quiet hours. |
+| ![Live status](docs/img/live-status.jpg) **Live status.** Your open sessions, what each is doing, and which overlays to show. | ![What the agent may do](docs/img/claude-permissions.jpg) **Agent.** The master switch, the tools and faces the agent may use, limits, quiet hours. |
 | ![Faces](docs/img/faces.jpg) **Faces and text.** Ten faces, scrolling messages in any colour. | ![Speaker modes](docs/img/speaker-modes.jpg) **Speaker modes.** The speaker's own clock, light, effects, visualizer, scoreboard. |
 | ![Timers](docs/img/timers.jpg) **Timers and meters.** Countdown and stopwatch, CPU/RAM, network, battery and disk. | ![Monitors](docs/img/monitors.jpg) **Monitors and weather.** Site uptime with alerts, real weather for your city. |
 
@@ -105,12 +105,12 @@ apps, divo-sys, Uninstall**, or `python divo.py uninstall`.
 
 | You see | It means |
 | --- | --- |
-| Thinking face, dots growing | You sent a prompt; Claude is reasoning |
+| Thinking face, dots growing | You sent a prompt; the agent is reasoning |
 | Working face alternating with a big picture | The tool in use: `>_` terminal, pencil, eyes for Read, magnifier, globe, flask for tests, a branch for git |
 | Strip along the bottom | Activity heartbeat: a spark per tool call, one column per 5 seconds |
 | Dots at the top left | Running sub-agents |
 | Square at the top right | The build after a `git push`: amber running, green passed, red failed |
-| Hopping and waving, with yellow sparkles | Claude is waiting on you |
+| Hopping and waving, with yellow sparkles | The agent is waiting on you |
 | Cheering face with sparkles | Done |
 | Party hat and confetti | A push went through or tests ran. A big number over a bar shows test results |
 | Glitch | A tool failed |
@@ -118,13 +118,13 @@ apps, divo-sys, Uninstall**, or `python divo.py uninstall`.
 
 The full guide, with every option: [docs/live-status.md](docs/live-status.md).
 
-## Claude's side
+## The agent's side (OpenClaw and friends)
 
 Two paths, both through the same permission checks:
 
-- **Hooks** make the screen follow Claude Code automatically. Nothing for Claude to call.
+- **Hooks** make the screen follow the coding session automatically (payload shape from Claude Code; OpenClaw drives its equivalent from automation lines such as Zero-Face.ps1). Nothing for the agent to call.
 - **MCP tools** (`set_face`, `show_text`, `draw_pixels`, `set_brightness`, `set_mode`, `timer`, `divoom_status`)
-  let Claude choose what to show. If you block something, Claude is told why and does not keep retrying.
+  let the agent (OpenClaw or any MCP client) choose what to show. If you block something, the agent is told why and does not keep retrying.
 
 ## Commands
 
@@ -150,6 +150,8 @@ Our changes on top of upstream:
 
 - **ZERO faces** (`divosys/zerofaces.py`, override block at the end of `faces.py`): the whole Claude-brand set is replaced by our design â€” two 4x4 white eyes with a **2x2 pupil whose colour marks the mood** (cyan calm Â· amber thinking/attention Â· red error/anger Â· green done/happy Â· magenta hearts/party Â· blue sweat) and an expressive mouth below (grin, frown, zig-zag, yawn, tongue, smirk, open-O). New moods added: `happy, angry, wink, bored, tease, surprise, heart` (17 in total). Revert by deleting the override block; the original `_build()` stays untouched.
 - **Spanish UI (es-ES)**: panel strings (`web/index.html`, original kept as `index.html.en`), mood/tool descriptions (`server.py`) and clock styles (`protocol.py`).
+- **OpenClaw identity (26-11)**: the permission block is `settings["agent"]` (old `"claude"` files migrate on load), the API path is `/api/agent` (`/api/claude` kept as alias), and every panel string says "el agente" / "the agent" — the integration target is OpenClaw; Claude Code remains only as the shape of the hook payloads and the optional `setup --hooks` path.
+- **Panel in its own window (26-11)**: `divo.py gui` opens a native WebView2 window (`divosys/panel.py`, pywebview when present) instead of a browser tab; falls back to Edge/Chrome `--app` and finally to the default browser. The desktop icon points at `gui`, so it behaves like a normal app window with its own taskbar entry.
 - Tests in `test_live.py`/`test_app.py`/`test_shortcut.py` updated to assert OUR design invariants (pupil colours, mouth bands, icon pixels) instead of the brand ones.
 - After editing Python sources, rebuild the app exe (`python divo.py install`) and restart the daemon â€” the running `divo-sys.exe` embeds a copy of the code.
 

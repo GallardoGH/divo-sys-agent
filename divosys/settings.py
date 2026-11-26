@@ -20,8 +20,8 @@ def defaults():
         "sync_time_on_connect": True,
         "autostart": False,
         "pinned": False,  # the Pin switch survives a restart
-        # What Claude (the MCP tools and the status hooks) is allowed to do.
-        "claude": {
+        # What the agent (OpenClaw: MCP tools and status hooks) is allowed to do.
+        "agent": {
             "enabled": True,
             "hooks": True,
             "tools": {t: True for t in TOOLS},
@@ -33,7 +33,7 @@ def defaults():
             "max_text_chars": 28,
             "quiet_hours": {"enabled": False, "start": "23:00", "end": "07:00"},
         },
-        # Claude's live status on the speaker (driven by Claude Code hooks).
+        # Live status on the speaker (driven by agent lifecycle hooks).
         "scene": {"mode": "auto", "glyphs": True, "heartbeat": True, "agent_dots": True, "ci_dot": True,
                   "reactions": True, "test_results": True, "elapsed_clock": False,
                   "tool_pictures": {k: True for k in faces.GLYPH_KINDS}, "sweat_after_s": 180, "hold_seconds": 30},
@@ -79,6 +79,16 @@ def _merge(base, over):
     return out
 
 
+def _rename_legacy_agent(raw):
+    """0.3.0-agent1 renamed the permissions block: settings written by older builds call it "claude".
+    The value keeps its shape; only the key moves, and never over an explicit "agent" block."""
+    if isinstance(raw, dict) and isinstance(raw.get("claude"), dict):
+        raw.setdefault("agent", raw["claude"])
+    if isinstance(raw, dict):
+        raw.pop("claude", None)
+    return raw
+
+
 class Settings:
     def __init__(self, path=None):
         self.path = Path(path) if path else DATA_DIR / "settings.json"
@@ -89,7 +99,7 @@ class Settings:
             sources.append(LEGACY_DATA_DIR / "settings.json")  # first run after the data folder moved
         for source in sources:
             try:
-                self.data = _merge(defaults(), json.loads(source.read_text(encoding="utf-8")))
+                self.data = _merge(defaults(), _rename_legacy_agent(json.loads(source.read_text(encoding="utf-8"))))
                 break
             except (OSError, ValueError):
                 continue

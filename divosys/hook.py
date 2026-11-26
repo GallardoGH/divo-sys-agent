@@ -1,6 +1,6 @@
-"""Claude Code hook: forward a lifecycle event to the daemon. Never blocks, never fails.
+"""Agent hook: forward a lifecycle event (Claude-Code-shaped payloads, also reusable by other harnesses) to the daemon. Never blocks, never fails.
 
-Registered for several events; Claude Code sends the event as JSON on stdin. `divo.py hook <mood>` is kept
+Registered for several events; the harness sends the event as JSON on stdin. `divo.py hook <mood>` is kept
 as a fallback that just shows a face.
 """
 import json

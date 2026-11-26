@@ -1,4 +1,4 @@
-"""Claude's live status scene: turns what the sessions are doing into frames. Pure functions, no I/O.
+"""The agent's live status scene: turns what the sessions are doing into frames. Pure functions, no I/O.
 
 A session is a dict: {id, project, state, kind, tool, task_start, attention_since, agents, beats, color}.
 States: idle, thinking, working, attention, done, error, sleep.
@@ -157,12 +157,12 @@ def pick_order(sessions):
 def render(sessions, ctx):
     """(frames, label) for the whole scene."""
     if not sessions:
-        return list(faces.FACES["sleep"]), "Claude · no sessions"
+        return list(faces.FACES["sleep"]), "Agent · no sessions"
     ordered = pick_order(sessions)
     if ctx["cfg"]["mode"] == "auto" and len(ordered) >= 2:
-        return render_board(ordered, ctx), f"Claude · {len(ordered)} sessions"
+        return render_board(ordered, ctx), f"Agent · {len(ordered)} sessions"
     s = ordered[0]
-    label = f"Claude · {s['project'] or 'session'} · {s['state']}"
+    label = f"Agent · {s['project'] or 'session'} · {s['state']}"
     if s["state"] == "working" and s.get("tool"):
         label += f" ({s['tool']})"
     return render_single(s, ctx), label

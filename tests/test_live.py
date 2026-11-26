@@ -224,11 +224,11 @@ class LiveEngine(unittest.TestCase):
         self.assertEqual(self.e.sessions, {})
         self.assertIn("no sessions", self.e.current["label"])
 
-    def test_claude_face_holds_then_status_returns(self):
+    def test_agent_face_holds_then_status_returns(self):
         self.send("UserPromptSubmit")
         self.assertTrue(self.e.handle({"cmd": "face", "mood": "party"}, "mcp")["ok"])
         self.send("PreToolUse", tool="Edit", kind="edit")
-        self.assertEqual(self.e.current["kind"], "face")  # Claude's own choice is not stomped at once
+        self.assertEqual(self.e.current["kind"], "face")  # the agent's own choice is not stomped at once
         self.clock.t += 31
         self.e.tick()
         self.assertEqual(self.e.current["kind"], "scene")
@@ -246,7 +246,7 @@ class LiveEngine(unittest.TestCase):
         self.e.handle({"cmd": "scene", "action": "resume"}, "gui")
         self.assertEqual(self.e.current["kind"], "scene")
 
-    def test_claude_cannot_resume_or_event_as_mcp(self):
+    def test_agent_cannot_resume_or_event_as_mcp(self):
         self.assertIn("denied", self.e.handle({"cmd": "scene", "action": "resume"}, "mcp"))
         self.assertIn("denied", self.e.handle(ev("Stop"), "mcp"))
 
@@ -254,7 +254,7 @@ class LiveEngine(unittest.TestCase):
         self.send("UserPromptSubmit")
         self.e.handle({"cmd": "timer", "action": "start", "seconds": 600}, "gui")
         self.send("Notification", ntype="permission_prompt")
-        self.assertEqual(self.e.current["label"], "Claude needs you")
+        self.assertEqual(self.e.current["label"], "Agent needs you")
         self.assertIsNotNone(self.e.temp)
         self.assertIsNotNone(self.e.app)            # the timer keeps running underneath
         self.clock.t += 9
@@ -272,7 +272,7 @@ class LiveEngine(unittest.TestCase):
         self.assertEqual(self.e.current["kind"], "scene")
 
     def test_master_switch_stops_display_but_not_bookkeeping(self):
-        self.e.settings.patch({"claude": {"enabled": False}})
+        self.e.settings.patch({"agent": {"enabled": False}})
         self.send("UserPromptSubmit")
         self.assertIn("a", self.e.sessions)
         self.assertNotEqual(self.e.current["kind"], "scene")
@@ -308,10 +308,10 @@ class LiveEngine(unittest.TestCase):
     def test_reactions(self):
         self.send("UserPromptSubmit")
         self.send("PostToolUse", tool="Bash", kind="test", tests=[30, 0])
-        self.assertEqual(self.e.current["label"], "Claude · reaction")
+        self.assertEqual(self.e.current["label"], "Agent · reaction")
         self.clock.t += 5
         self.e.tick()
-        self.assertNotEqual(self.e.current["label"], "Claude · reaction")
+        self.assertNotEqual(self.e.current["label"], "Agent · reaction")
         self.send("PostToolUse", tool="Bash", kind="git", push=True)
         self.assertIsNotNone(self.e.flash)  # party
         self.clock.t += 5
@@ -323,7 +323,7 @@ class LiveEngine(unittest.TestCase):
         self.e.settings.patch({"scene": {"reactions": False}})
         self.send("PostToolUse", tool="Bash", kind="git", push=True)
         self.assertIsNone(self.e.flash)
-        self.e.settings.patch({"scene": {"reactions": True}, "claude": {"moods": {"party": False}}})
+        self.e.settings.patch({"scene": {"reactions": True}, "agent": {"moods": {"party": False}}})
         self.send("PostToolUse", tool="Bash", kind="git", push=True)
         self.assertIsNone(self.e.flash)
 
@@ -406,7 +406,7 @@ class LiveEngine(unittest.TestCase):
 
 class Policy(unittest.TestCase):
     def test_hook_event_allowed_other_commands_not(self):
-        cfg = defaults()["claude"]
+        cfg = defaults()["agent"]
         now = datetime.datetime(2026, 1, 1, 12, 0)
         self.assertTrue(policy.decide(cfg, {"cmd": "event"}, "hook", now=now)[0])
         self.assertFalse(policy.decide(cfg, {"cmd": "text", "text": "x"}, "hook", now=now)[0])

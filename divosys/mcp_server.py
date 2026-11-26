@@ -1,7 +1,7 @@
-"""MCP server (stdio, hand-rolled JSON-RPC, no SDK) that lets Claude use the Divoom Timebox Evo.
+"""MCP server (stdio, hand-rolled JSON-RPC, no SDK) that lets an agent (OpenClaw) use the Divoom Timebox Evo.
 
 Every tool goes through the daemon, which enforces the permissions the user sets in the GUI.
-A denied call is reported back as plain text so Claude can adapt instead of retrying.
+A denied call is reported back as plain text so the agent can adapt instead of retrying.
 """
 import json
 import sys
@@ -17,7 +17,7 @@ MOOD_HELP = {
     "attention": "hopping, waving arms, wide eyes, yellow sparkles: I need the user (question, permission)",
     "error": "X eyes: something failed",
     "sleep": "dim, eyes shut, floating z: session over or idle",
-    "splash": "the Claude starburst logo",
+    "splash": "the welcome starburst logo",
     "party": "party hat, cheering arms and falling confetti: celebrate a win",
     "sweat": "worried, sweat drops: a long task is still running",
 }
@@ -25,7 +25,7 @@ COLOR = {"type": "string", "description": "hex colour like #FF6018"}
 
 TOOLS = [
     {"name": "set_face",
-     "description": "Show one of Claude's pixel faces on the Divoom screen to signal what I'm doing. Moods: "
+     "description": "Show one of the agent's pixel faces on the Divoom screen to signal what I'm doing. Moods: "
                     + "; ".join(f"{k} = {v}" for k, v in MOOD_HELP.items()),
      "inputSchema": {"type": "object", "required": ["mood"], "properties": {"mood": {"type": "string", "enum": faces.MOODS}}}},
     {"name": "show_text",
@@ -113,12 +113,12 @@ def build_request(name, a):
 
 def call_tool(name, a):
     if name == "divoom_status":
-        info = get("/api/claude")
+        info = get("/api/agent")
         p = info["permissions"]
         allowed = [t for t, on in p["tools"].items() if on] if p["enabled"] else []
         off = [m for m, on in p["moods"].items() if not on]
         return json.dumps({"connected": info["connected"], "showing": info["showing"], "pinned_by_user": info["pinned"],
-                           "claude_control_enabled": p["enabled"], "tools_allowed": allowed, "faces_disabled": off,
+                           "agent_control_enabled": p["enabled"], "tools_allowed": allowed, "faces_disabled": off,
                            "auto_status_hooks": p["hooks"], "min_seconds_between_changes": p["min_interval_s"],
                            "brightness_range": [p["brightness_min"], p["brightness_max"]],
                            "quiet_hours": p["quiet_hours"]})

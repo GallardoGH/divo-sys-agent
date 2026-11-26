@@ -12,10 +12,10 @@ from . import __version__, launch
 USAGE = """divo-sys {version}
 
   setup               one-step install: puts divo-sys.exe in your programs folder, finds your speaker, starts with
-                      Windows, adds the Claude Code hooks and MCP server and a desktop icon
+                      Windows, adds optional agent hooks, the MCP server and a desktop icon
                       (options: --no-app --no-hooks --no-mcp --no-autostart --no-shortcut)
   uninstall           undo everything setup did
-  gui                 open the control panel (starts the service if needed)
+  gui                 open the control panel in its own window (starts the service if needed)
   shortcut            put a divo-sys icon on your desktop (also: shortcut startmenu | shortcut remove)
   install             only build and install divo-sys.exe
   build-installer     build divo-sys-setup.exe, the file to give to other people (option: --out FOLDER)
@@ -28,7 +28,7 @@ USAGE = """divo-sys {version}
   bright <0-100>      set the screen brightness
   nightlight <on|off|enable|disable>   warm desk light (window or always, see settings)
   status              what is connected and showing
-  hook                for Claude Code hooks (reads the event on stdin)
+  hook                for agent lifecycle hooks (reads the event on stdin)
   mcp                 the MCP server (stdio)
   version             print the version
 """
@@ -59,8 +59,8 @@ def interactive(ask=None, show=None, open_panel=None):
         open_panel()
         return 0
     verb = "Update" if launch.installed() else "Install"
-    if not ask(f"{verb} divo-sys {__version__}?\n\nIt starts with Windows and runs in the background. It adds the Claude "
-               "Code hooks, an MCP server and a desktop icon. You can remove it any time from Settings, Apps."):
+    if not ask(f"{verb} divo-sys {__version__}?\n\nIt starts with Windows and runs in the background. It adds optional agent "
+               "hooks, an MCP server and a desktop icon. You can remove it any time from Settings, Apps."):
         return 0
     from .setup_cmd import setup
     lines = []
@@ -146,11 +146,11 @@ def main(argv):
         print("stopped" if stop_daemon() else "not running")
     elif cmd == "gui":
         from .client import ensure_daemon
-        from .config import HOST, PORT
         if not ensure_daemon():
             _say("divo-sys could not start its background service. See daemon.log in the divo-sys data folder.", True)
             return 1
-        webbrowser.open(f"http://{HOST}:{PORT}/")
+        from . import panel
+        panel.open_panel()
     elif cmd == "face" and rest:
         from . import faces
         if rest[0] not in faces.MOODS:

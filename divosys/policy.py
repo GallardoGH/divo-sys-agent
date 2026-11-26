@@ -1,7 +1,7 @@
-"""What is Claude allowed to do on the speaker? A pure function so it can be tested.
+"""What is the agent allowed to do on the speaker? A pure function so it can be tested.
 
-`gui` and `system` are the user and the daemon itself: never restricted. `mcp` (Claude's tools)
-and `hook` (automatic status from Claude Code events) are restricted by settings["claude"].
+`gui` and `system` are the user and the daemon itself: never restricted. `mcp` (the agent's tools)
+and `hook` (automatic status from agent events) are restricted by settings["agent"].
 """
 import copy
 import datetime
@@ -42,12 +42,12 @@ def decide(cfg, req, source, pinned=False, now=None, last_change=0.0, now_ts=0.0
     if source in PRIVILEGED:
         return True, None, req
     if not cfg["enabled"]:
-        return False, "Claude control is switched off", req
+        return False, "Agent control is switched off", req
     if source == "hook" and not cfg["hooks"]:
         return False, "automatic status hooks are switched off", req
     cmd = req.get("cmd")
     if cmd not in TOOL_FOR:
-        return False, f"'{cmd}' is not something Claude may do", req
+        return False, f"'{cmd}' is not something the agent may do", req
     if source == "hook" and cmd not in ("face", "event"):
         return False, "hooks may only send status events and faces", req
     if pinned and not cfg["override_pin"]:

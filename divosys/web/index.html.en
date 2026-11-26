@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="divo-token" content="__TOKEN__">
-<title>divo-sys</title>
+<title>ZERO EVO · Panel</title>
 <style>
 :root {
   --bg: #f7f3ed; --surface: #ffffff; --surface-2: #f1ebe2; --ink: #211b17; --muted: #6b6159; --line: #e3dacd;
@@ -128,7 +128,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
 <body>
 
 <header class="top">
-  <div class="brand"><i></i>divo-sys</div>
+  <div class="brand"><i></i>ZERO EVO Panel</div>
   <div class="now">
     <canvas id="miniScreen" class="led" aria-hidden="true"></canvas>
     <div class="txt">
@@ -137,7 +137,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
     </div>
   </div>
   <div class="quick">
-    <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="claudeSwitch"><span></span></span> Claude control</label>
+    <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="agentSwitch"><span></span></span> Agent control</label>
     <label class="row" style="gap:8px"><span class="switch"><input type="checkbox" role="switch" id="pinSwitch"><span></span></span> Pin display</label>
     <button class="btn" id="themeBtn" aria-label="Switch light or dark theme">Theme</button>
   </div>
@@ -147,7 +147,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
   <nav aria-label="Sections" id="nav">
     <button data-tab="dash">Dashboard</button>
     <button data-tab="live">Live status</button>
-    <button data-tab="claude">Claude</button>
+    <button data-tab="agent">Agent</button>
     <button data-tab="faces">Faces and text</button>
     <button data-tab="modes">Speaker modes</button>
     <button data-tab="apps">Timers and meters</button>
@@ -184,7 +184,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
       </div>
       <div class="card">
         <h3>Activity</h3>
-        <p class="muted" style="font-size:13px">Everything that changed the screen, and anything Claude tried that your settings blocked.</p>
+        <p class="muted" style="font-size:13px">Everything that changed the screen, and anything the agent tried that your settings blocked.</p>
         <ul class="log" id="log"></ul>
       </div>
     </section>
@@ -192,7 +192,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
     <!-- LIVE STATUS -->
     <section id="tab-live" hidden>
       <h2>Live status</h2>
-      <p class="muted">How the speaker shows what your Claude Code sessions are doing. It follows the hooks on its own.</p>
+      <p class="muted">How the speaker shows what your agent sessions are doing. It follows the hooks on its own.</p>
       <div class="card"><div class="row between"><h3 style="margin:0">Sessions</h3><button class="btn" id="resumeBtn2">Resume live status</button></div>
         <div id="sessionList"></div></div>
       <div class="card" id="ciCard" hidden><div class="row between"><div><h3 style="margin-bottom:var(--s1)">Build after your last push</h3><div id="ciText"></div></div><button class="btn" id="ciDismiss">Dismiss</button></div></div>
@@ -204,12 +204,12 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
           <div class="setting"><div class="what"><b>Sub-agent dots</b><small>One dot along the top for each running sub-agent.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.agent_dots" aria-label="Sub-agent dots"><span></span></label></div>
           <div class="setting"><div class="what"><b>Build dot</b><small>A corner square that follows the GitHub Actions run after a push.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.ci_dot" aria-label="Build dot"><span></span></label></div>
           <div class="setting"><div class="what"><b>Reactions</b><small>Confetti and a glitch when a tool fails. Off also hides test results.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.reactions" aria-label="Reactions"><span></span></label></div>
-          <div class="setting"><div class="what"><b>Test results</b><small>A big pass count over a green and red bar for a few seconds after Claude runs your tests. Off shows confetti or a glitch instead.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.test_results" aria-label="Test results"><span></span></label></div>
+          <div class="setting"><div class="what"><b>Test results</b><small>A big pass count over a green and red bar for a few seconds after the agent runs your tests. Off shows confetti or a glitch instead.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.test_results" aria-label="Test results"><span></span></label></div>
           <div class="setting"><div class="what"><b>Elapsed clock</b><small>Minutes over seconds since you sent the prompt, shown in the cycle after 20 seconds of work.</small></div><label class="switch"><input type="checkbox" role="switch" data-set="scene.elapsed_clock" aria-label="Elapsed clock"><span></span></label></div>
         </div>
         <div class="card stack"><h3>Timing</h3>
           <label class="field">Start sweating after a task runs this long (seconds)<input type="number" min="30" max="3600" data-set="scene.sweat_after_s"></label>
-          <label class="field">A face you or Claude picks stays this long before live status returns (seconds)<input type="number" min="0" max="600" data-set="scene.hold_seconds"></label>
+          <label class="field">A face you or the agent picks stays this long before live status returns (seconds)<input type="number" min="0" max="600" data-set="scene.hold_seconds"></label>
         </div>
       </div>
       <div class="card"><h3>Tool pictures</h3><p class="muted small">Switch one off and that tool shows the face only. The Tool pictures switch above turns them all off.</p><div class="faces" id="glyphGallery"></div></div>
@@ -219,40 +219,40 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
           <li><b>Dots along the top left:</b> running sub-agents.</li>
           <li><b>Square in the top right:</b> the build after a push. Amber blinking is running, green passed, red failed.</li>
           <li><b>Sweat drops:</b> the task has been running a long time.</li>
-          <li><b>Hopping and waving, with yellow sparkles:</b> Claude is waiting on you. It breaks through a clock or timer for a few seconds, then goes back.</li>
+          <li><b>Hopping and waving, with yellow sparkles:</b> The agent is waiting on you. It breaks through a clock or timer for a few seconds, then goes back.</li>
           <li><b>Confetti:</b> a push went through or tests ran. <b>A big number over a bar:</b> test results. <b>Glitch:</b> a tool failed.</li>
           <li><b>Board:</b> each small face has a coloured stripe on top that matches the colour in the session list above.</li>
         </ul></div>
     </section>
 
-    <!-- CLAUDE -->
-    <section id="tab-claude" hidden>
-      <h2>What Claude may do</h2>
-      <p class="muted">These rules apply to Claude's tools and to the automatic status hooks. Your own clicks in this panel are never limited. A blocked request shows up in Activity, and Claude is told why.</p>
+    <!-- AGENT -->
+    <section id="tab-agent" hidden>
+      <h2>What the agent may do</h2>
+      <p class="muted">These rules apply to the agent's tools and to the automatic status hooks. Your own clicks in this panel are never limited. A blocked request shows up in Activity, and the agent is told why.</p>
       <div class="card">
-        <div class="setting"><div class="what"><b>Claude control</b><small>Master switch. Off means Claude and the hooks cannot touch the screen at all.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.enabled" aria-label="Claude control"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Automatic status faces</b><small>Faces that follow what Claude Code is doing (thinking, working, done, needs you). No tool call needed.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.hooks" aria-label="Automatic status faces"><span></span></label></div>
-        <div class="setting"><div class="what"><b>Claude may override a pinned display</b><small>Normally pinning blocks Claude completely.</small></div>
-          <label class="switch"><input type="checkbox" role="switch" data-set="claude.override_pin" aria-label="Override pin"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Agent control</b><small>Master switch. Off means the agent and the hooks cannot touch the screen at all.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="agent.enabled" aria-label="Agent control"><span></span></label></div>
+        <div class="setting"><div class="what"><b>Automatic status faces</b><small>Faces that follow what the agent is doing (thinking, working, done, needs you). No tool call needed.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="agent.hooks" aria-label="Automatic status faces"><span></span></label></div>
+        <div class="setting"><div class="what"><b>The agent may override a pinned display</b><small>Normally pinning blocks the agent completely.</small></div>
+          <label class="switch"><input type="checkbox" role="switch" data-set="agent.override_pin" aria-label="Override pin"><span></span></label></div>
       </div>
-      <div class="card"><h3>Tools Claude can call</h3><div id="toolList"></div></div>
-      <div class="card"><h3>Faces Claude can show</h3>
-        <p class="muted" style="font-size:13px">Switch a face off and Claude can no longer show it (the hooks skip it too).</p>
+      <div class="card"><h3>Tools the agent can call</h3><div id="toolList"></div></div>
+      <div class="card"><h3>Faces the agent can show</h3>
+        <p class="muted" style="font-size:13px">Switch a face off and the agent can no longer show it (the hooks skip it too).</p>
         <div class="faces" id="moodToggles"></div></div>
       <div class="grid">
         <div class="card stack"><h3>Limits</h3>
-          <label class="field">Minimum seconds between Claude's changes<input type="number" min="0" max="60" step="0.5" data-set="claude.min_interval_s"></label>
-          <label class="field">Longest scrolling message (characters)<input type="number" min="1" max="60" data-set="claude.max_text_chars"></label>
-          <div class="row"><label class="field">Dimmest Claude can set<input type="number" min="0" max="100" data-set="claude.brightness_min"></label>
-            <label class="field">Brightest Claude can set<input type="number" min="0" max="100" data-set="claude.brightness_max"></label></div>
+          <label class="field">Minimum seconds between the agent's changes<input type="number" min="0" max="60" step="0.5" data-set="agent.min_interval_s"></label>
+          <label class="field">Longest scrolling message (characters)<input type="number" min="1" max="60" data-set="agent.max_text_chars"></label>
+          <div class="row"><label class="field">Dimmest the agent can set<input type="number" min="0" max="100" data-set="agent.brightness_min"></label>
+            <label class="field">Brightest the agent can set<input type="number" min="0" max="100" data-set="agent.brightness_max"></label></div>
         </div>
         <div class="card stack"><h3>Quiet hours</h3>
-          <div class="setting" style="border:0;padding:0"><div class="what"><b>Block Claude during these hours</b><small>The screen keeps whatever it shows.</small></div>
-            <label class="switch"><input type="checkbox" role="switch" data-set="claude.quiet_hours.enabled" aria-label="Quiet hours"><span></span></label></div>
-          <div class="row"><label class="field">From<input type="time" data-set="claude.quiet_hours.start"></label>
-            <label class="field">Until<input type="time" data-set="claude.quiet_hours.end"></label></div>
+          <div class="setting" style="border:0;padding:0"><div class="what"><b>Block the agent during these hours</b><small>The screen keeps whatever it shows.</small></div>
+            <label class="switch"><input type="checkbox" role="switch" data-set="agent.quiet_hours.enabled" aria-label="Quiet hours"><span></span></label></div>
+          <div class="row"><label class="field">From<input type="time" data-set="agent.quiet_hours.start"></label>
+            <label class="field">Until<input type="time" data-set="agent.quiet_hours.end"></label></div>
         </div>
       </div>
     </section>
@@ -260,7 +260,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
     <!-- FACES AND TEXT -->
     <section id="tab-faces" hidden>
       <h2>Faces and text</h2>
-      <div class="card"><h3>Claude's faces</h3><p class="muted" style="font-size:13px">Click one to show it on the speaker.</p><div class="faces" id="faceGallery"></div></div>
+      <div class="card"><h3>Agent faces</h3><p class="muted" style="font-size:13px">Click one to show it on the speaker.</p><div class="faces" id="faceGallery"></div></div>
       <div class="card stack"><h3>Scrolling message</h3>
         <div class="row">
           <label class="field" style="flex:1; min-width:200px">Message<input type="text" id="msgText" maxlength="60" placeholder="BACK IN 5 MIN"></label>
@@ -389,7 +389,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
           <div class="row"><label class="field">From<input type="time" data-set="night.start"></label><label class="field">Until<input type="time" data-set="night.end"></label>
             <label class="field">Brightness<input type="number" min="0" max="100" data-set="night.brightness" style="width:90px"></label></div></div>
         <div class="card stack"><h3>Go to sleep when idle</h3>
-          <p class="muted" style="font-size:13px;margin:0">If a face Claude set stays untouched this long, the sleeping face appears. Your own clock, light and timers are never interrupted. 0 turns it off.</p>
+          <p class="muted" style="font-size:13px;margin:0">If a face the agent set stays untouched this long, the sleeping face appears. Your own clock, light and timers are never interrupted. 0 turns it off.</p>
           <label class="field">Minutes<input type="number" min="0" max="240" data-set="idle_sleep_minutes" style="width:110px"></label></div>
       </div>
     </section>
@@ -416,7 +416,7 @@ ul.tips { margin: 0; padding-left: var(--s5); } ul.tips li { margin-bottom: var(
         <p class="muted small">The service runs in the background with no window. Put an icon where you can click it to come back here.</p>
         <div class="row"><button class="btn" id="addShortcut">Add a desktop shortcut</button><button class="btn" id="addStartMenu">Add to the Start menu</button></div></div>
       <div class="card"><h3>Background service</h3>
-        <p class="muted" style="font-size:13px">It holds the Bluetooth link. Stopping it frees the speaker for the phone app; it restarts the next time Claude or this panel needs it.</p>
+        <p class="muted" style="font-size:13px">It holds the Bluetooth link. Stopping it frees the speaker for the phone app; it restarts the next time the agent or this panel needs it.</p>
         <button class="btn danger" id="quitBtn">Stop service</button></div>
     </section>
   </main>
@@ -519,10 +519,10 @@ function renderSettings() {
     if (v === undefined || document.activeElement === i) return;
     if (i.type === 'checkbox') i.checked = !!v; else i.value = v;
   });
-  $$('[data-tool]').forEach((i) => (i.checked = !!SETTINGS.claude.tools[i.dataset.tool]));
-  $$('[data-mood]').forEach((i) => (i.checked = !!SETTINGS.claude.moods[i.dataset.mood]));
+  $$('[data-tool]').forEach((i) => (i.checked = !!SETTINGS.agent.tools[i.dataset.tool]));
+  $$('[data-mood]').forEach((i) => (i.checked = !!SETTINGS.agent.moods[i.dataset.mood]));
   $$('[data-glyph]').forEach((i) => (i.checked = SETTINGS.scene.tool_pictures[i.dataset.glyph] !== false));
-  $('#claudeSwitch').checked = SETTINGS.claude.enabled;
+  $('#agentSwitch').checked = SETTINGS.agent.enabled;
   renderReminders(); renderRotation(); renderMonitors();
 }
 document.addEventListener('change', (e) => {
@@ -531,11 +531,11 @@ document.addEventListener('change', (e) => {
     let v = i.type === 'checkbox' ? i.checked : i.type === 'number' ? Number(i.value) : i.value;
     if (i.type === 'number' && !Number.isFinite(v)) return;
     saveSettings(patchFor(i.dataset.set, v));
-  } else if (i.dataset.tool) saveSettings({ claude: { tools: { [i.dataset.tool]: i.checked } } });
-  else if (i.dataset.mood) saveSettings({ claude: { moods: { [i.dataset.mood]: i.checked } } });
+  } else if (i.dataset.tool) saveSettings({ agent: { tools: { [i.dataset.tool]: i.checked } } });
+  else if (i.dataset.mood) saveSettings({ agent: { moods: { [i.dataset.mood]: i.checked } } });
   else if (i.dataset.glyph) saveSettings({ scene: { tool_pictures: { [i.dataset.glyph]: i.checked } } });
 });
-$('#claudeSwitch').addEventListener('change', (e) => saveSettings({ claude: { enabled: e.target.checked } }));
+$('#agentSwitch').addEventListener('change', (e) => saveSettings({ agent: { enabled: e.target.checked } }));
 $('#pinSwitch').addEventListener('change', (e) => cmd({ cmd: 'pin', value: e.target.checked }));
 
 /* ---- state polling ---- */
@@ -740,20 +740,20 @@ function renderLive(s) {
   $('#heldBanner').hidden = !held;
   if (held) {
     const why = s.app ? 'a ' + s.app.name + ' is running' : s.scene.holding_for === 'forever' ? 'you chose a speaker mode'
-      : 'a face you or Claude picked stays for ' + s.scene.holding_for + ' more seconds';
-    $('#heldText').textContent = "Claude's live status is paused: " + why + '.';
+      : 'a face you or the agent picked stays for ' + s.scene.holding_for + ' more seconds';
+    $('#heldText').textContent = "The agent's live status is paused: " + why + '.';
   }
   const ss = s.sessions;
   $('#sessionSummary').textContent = ss.length
-    ? (ss.length === 1 ? '1 Claude session: ' : ss.length + ' Claude sessions: ') + ss.map((x) => (x.project || 'session') + ' ' + STATE_TEXT[x.state]).join(', ')
-    : 'No Claude sessions yet. They appear as soon as Claude Code runs.';
+    ? (ss.length === 1 ? '1 agent session: ' : ss.length + ' agent sessions: ') + ss.map((x) => (x.project || 'session') + ' ' + STATE_TEXT[x.state]).join(', ')
+    : 'No agent sessions yet. They appear as soon as OpenClaw (or another agent) runs.';
   const sig = JSON.stringify(ss.map((x) => [x.id, x.state, x.tool, x.agents, Math.floor((x.elapsed || 0) / 5), Math.floor((x.waiting_for || 0) / 5), Math.floor(x.idle_for / 30)]));
   setList($('#sessionList'), sig, () => ss.length ? ss.map((x) => el('div', { class: 'setting' },
     el('div', { class: 'what' }, el('b', {}, el('span', { class: 'sw', style: 'background:rgb(' + x.color.join(',') + ')' }), x.project || 'session'),
       el('small', {}, [x.state === 'working' && x.tool ? 'using ' + x.tool : '', x.agents ? x.agents + ' sub-agent' + (x.agents > 1 ? 's' : '') : '',
         x.elapsed != null ? 'task running ' + dur(x.elapsed) : '', x.waiting_for != null ? 'waiting on you for ' + dur(x.waiting_for) : '',
         'last activity ' + dur(x.idle_for) + ' ago'].filter(Boolean).join(' · '))),
-    el('span', { class: 'badge' }, STATE_TEXT[x.state]))) : [el('div', { class: 'empty' }, 'Nothing yet. Sessions show up here when Claude Code runs its hooks.')]);
+    el('span', { class: 'badge' }, STATE_TEXT[x.state]))) : [el('div', { class: 'empty' }, 'Nothing yet. Sessions show up here when the agent runs its hooks.')]);
   $('#ciCard').hidden = !s.ci;
   if (s.ci) $('#ciText').textContent = s.ci.repo + '@' + s.ci.branch + ' (' + s.ci.sha + '): ' + ({ waiting: 'waiting for the run to start', running: 'running', success: 'passed', failure: 'failed' }[s.ci.state] || s.ci.state);
   renderMonitors();

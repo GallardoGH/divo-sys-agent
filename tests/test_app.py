@@ -137,7 +137,7 @@ class DataFolder(unittest.TestCase):
                 mock.patch.object(settings, "LEGACY_DATA_DIR", legacy):
             first = settings.Settings()
             self.assertEqual(first.snapshot()["brightness"], 33)
-            self.assertFalse(first.snapshot()["claude"]["enabled"])
+            self.assertFalse(first.snapshot()["agent"]["enabled"])  # old "claude" block migrated to "agent"
             first.patch({"brightness": 44})  # saving writes to the new place
             self.assertTrue((fresh / "settings.json").is_file())
             self.assertEqual(settings.Settings().snapshot()["brightness"], 44)  # and the new place wins from now on
@@ -157,12 +157,12 @@ class MigrateSettings(unittest.TestCase):
             self.addCleanup(p.stop)
 
     def test_carries_the_old_choices_over_once(self):
-        self.old.write_text('{"claude": {"override_pin": true}}', encoding="utf-8")
+        self.old.write_text('{"agent": {"override_pin": true}}', encoding="utf-8")
         self.assertTrue(appinstall.migrate_settings(lambda *_: None))
-        self.assertEqual(json.loads(self.new.read_text(encoding="utf-8")), {"claude": {"override_pin": True}})
-        self.old.write_text('{"claude": {"override_pin": false}}', encoding="utf-8")
+        self.assertEqual(json.loads(self.new.read_text(encoding="utf-8")), {"agent": {"override_pin": True}})
+        self.old.write_text('{"agent": {"override_pin": false}}', encoding="utf-8")
         self.assertFalse(appinstall.migrate_settings(lambda *_: None))  # never overwrites what is already there
-        self.assertTrue(json.loads(self.new.read_text(encoding="utf-8"))["claude"]["override_pin"])
+        self.assertTrue(json.loads(self.new.read_text(encoding="utf-8"))["agent"]["override_pin"])
 
     def test_nothing_to_carry(self):
         self.assertFalse(appinstall.migrate_settings(lambda *_: None))

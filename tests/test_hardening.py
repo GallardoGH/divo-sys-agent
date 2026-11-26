@@ -88,7 +88,7 @@ class Hardening(unittest.TestCase):
         self.assertEqual(len(self.raw("GET", "/api/state")[1]["events"]), 1)
         self.assertEqual(self.e.events, [])                  # the panel took them
         self.e.events.append({"type": "ci", "label": "y"})
-        self.raw("GET", "/api/claude")
+        self.raw("GET", "/api/agent")
         self.raw("GET", "/api/ping")
         self.assertEqual(len(self.e.events), 1)              # the status tool and the liveness check leave them alone
 
@@ -98,7 +98,7 @@ class Hardening(unittest.TestCase):
         with self.e.uptime.lock:
             self.e.uptime.results["1"] = {"up": True, "ms": 5, "fails": 0, "name": "s", "url": secret_url, "error": ""}
         self.assertNotIn("secret", json.dumps(self.raw("GET", "/api/state")[1]))
-        self.assertNotIn("secret", json.dumps(self.raw("GET", "/api/claude")[1]))
+        self.assertNotIn("secret", json.dumps(self.raw("GET", "/api/agent")[1]))
 
     def test_malformed_requests_are_rejected_cleanly(self):
         self.assertEqual(self.raw("POST", "/api/cmd", b"[]", {"Content-Length": "2"})[0], 400)            # not an object

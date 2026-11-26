@@ -6,7 +6,7 @@ anger / green done & happy / magenta heart & party / blue sweat), and a mouth
 in the rows 11..13 band, well separated from the eyes. Special modes: half
 lids (bored/wink), blink line, sleep bar, happy arches, 6x5 hearts.
 
-Every mood = list of (pixels256, delay_ms). To revert to the Claude-brand set,
+Every mood = list of (pixels256, delay_ms). To revert to the upstream brand set,
 delete the override block at the end of faces.py.
 """
 import random

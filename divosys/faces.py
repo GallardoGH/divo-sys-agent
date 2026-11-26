@@ -1,4 +1,4 @@
-"""Claude-brand pixel faces (16x16) and a tiny 3x5 scrolling-text font.
+"""Agent pixel faces (16x16) and a tiny 3x5 scrolling-text font.
 
 Every mood is a list of (pixels, delay_ms) frames; pixels is 256 (r, g, b) tuples.
 """
@@ -308,7 +308,7 @@ def solid_frame(color):
 
 
 
-# ---- tool glyphs: what Claude is doing, drawn big -----------------------------------
+# ---- tool glyphs: what the agent is doing, drawn big -----------------------------------
 _PAL = {"O": CORAL, "W": CREAM, "Y": (255, 210, 0), "B": (0, 170, 255), "G": (0, 230, 80), "R": (255, 40, 30)}
 GLYPHS = {
     "bash": ["WWWWWWWWWWWW", "W..........W", "W.O........W", "W..O.......W", "W...O......W", "W..O.......W",

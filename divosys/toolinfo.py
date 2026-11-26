@@ -1,4 +1,4 @@
-"""Light helpers that classify what Claude is doing. No heavy imports: hooks use this on every tool call."""
+"""Light helpers that classify what the agent is doing. No heavy imports: hooks use this on every tool call."""
 import re
 
 TEST_RE = re.compile(

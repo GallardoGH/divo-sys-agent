@@ -57,7 +57,7 @@ class Protocol(unittest.TestCase):
 
 class Policy(unittest.TestCase):
     def setUp(self):
-        self.cfg = new_settings().snapshot()["claude"]
+        self.cfg = new_settings().snapshot()["agent"]
         self.noon = datetime.datetime(2026, 1, 1, 12, 0)
 
     def d(self, req, source="mcp", **kw):
@@ -91,7 +91,7 @@ class Policy(unittest.TestCase):
         self.assertFalse(self.d({"cmd": "face", "mood": "error"})[0])
         self.assertTrue(self.d({"cmd": "face", "mood": "done"})[0])
 
-    def test_admin_commands_denied_for_claude(self):
+    def test_admin_commands_denied_for_agent(self):
         self.assertFalse(self.d({"cmd": "pin", "value": True})[0])
 
     def test_clamps_and_trims(self):
@@ -141,7 +141,7 @@ class EngineTests(unittest.TestCase):
     def test_face_and_denial_logged(self):
         self.assertTrue(self.e.handle({"cmd": "face", "mood": "done"}, "mcp")["ok"])
         self.assertEqual(self.e.current["mood"], "done")
-        self.e.settings.patch({"claude": {"enabled": False}})
+        self.e.settings.patch({"agent": {"enabled": False}})
         r = self.e.handle({"cmd": "face", "mood": "error"}, "mcp")
         self.assertIn("denied", r)
         self.assertEqual(self.e.current["mood"], "done")
@@ -190,11 +190,11 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(self.e.nlight_fade_step, 2)   # full brightness, no more steps
 
     def test_nightlight_rejected_from_mcp_without_tool(self):
-        # nightlight maps to set_mode; claude may call it only if the tool is on (default True)
+        # nightlight maps to set_mode; the agent may call it only if the tool is on (default True)
         r = self.e.handle({"cmd": "nightlight", "action": "enable"}, "mcp")
         self.assertTrue(r["ok"])
 
-    def test_pin_blocks_claude_but_not_gui(self):
+    def test_pin_blocks_agent_but_not_gui(self):
         self.e.handle({"cmd": "pin", "value": True}, "gui")
         self.assertIn("denied", self.e.handle({"cmd": "face", "mood": "error"}, "hook"))
         self.assertTrue(self.e.handle({"cmd": "face", "mood": "error"}, "gui")["ok"])
@@ -241,7 +241,7 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(self.e.effective_brightness(datetime.datetime(2026, 1, 1, 23, 0)), 10)
         self.assertEqual(self.e.effective_brightness(datetime.datetime(2026, 1, 1, 12, 0)), 100)
 
-    def test_idle_sleep_only_after_claude_set_the_display(self):
+    def test_idle_sleep_only_after_agent_set_the_display(self):
         self.e.settings.patch({"idle_sleep_minutes": 1})
         self.e.handle({"cmd": "mode", "mode": "clock"}, "gui")
         self.clock.t += 120
@@ -299,10 +299,10 @@ class ServerTests(unittest.TestCase):
 
     def test_settings_need_token(self):
         self.assertEqual(self.req("GET", "/api/settings")[0], 403)
-        self.assertEqual(self.req("POST", "/api/settings", {"claude": {"enabled": False}})[0], 403)
-        st, body = self.req("POST", "/api/settings", {"claude": {"enabled": False}}, {"X-Divo-Token": self.srv.token})
+        self.assertEqual(self.req("POST", "/api/settings", {"agent": {"enabled": False}})[0], 403)
+        st, body = self.req("POST", "/api/settings", {"agent": {"enabled": False}}, {"X-Divo-Token": self.srv.token})
         self.assertEqual(st, 200)
-        self.assertFalse(body["claude"]["enabled"])
+        self.assertFalse(body["agent"]["enabled"])
 
     def test_gui_source_needs_token_but_mcp_does_not(self):
         r = {"req": {"cmd": "face", "mood": "idle"}}
@@ -310,7 +310,7 @@ class ServerTests(unittest.TestCase):
         self.assertTrue(self.req("POST", "/api/cmd", {**r, "source": "mcp"})[1]["ok"])
         self.assertEqual(self.req("POST", "/api/cmd", {**r, "source": "system"})[0], 400)
 
-    def test_claude_cannot_pin_over_cmd(self):
+    def test_agent_cannot_pin_over_cmd(self):
         st, body = self.req("POST", "/api/cmd", {"req": {"cmd": "pin", "value": True}, "source": "mcp"})
         self.assertIn("denied", body)
         self.assertFalse(self.e.pinned)
