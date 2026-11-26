@@ -19,27 +19,18 @@ def _url():
 
 
 def _taskbar_identity():
-    """Own the taskbar entry: group under our AppUserModelID and use the app's own icon.
+    """Own the taskbar entry: group the panel window under its own AppUserModelID.
 
-    Without this, a pywebview window launched through the pythonw stub shows the generic Python
-    icon and can group with unrelated Python windows. The icon comes from divo-sys.exe itself
-    when the code runs packed, else from a generated .ico in the data folder."""
+    Without it a pywebview window can group with unrelated Python windows. We deliberately do NOT
+    pass an icon to webview.start: pywebview feeds it through System.Drawing.Icon, which throws on
+    our generated .ico files and kills the window thread. When the panel runs from divo-sys.exe
+    (the normal case) the window inherits the exe's own stamped icon, which is what we want."""
     try:
         import ctypes
 
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ZERO.EVO.Panel")
     except Exception:
         pass
-    from . import launch
-    if launch.packed():
-        exe = launch.archive_path()
-        if exe:
-            return str(exe)
-    try:
-        from . import icon
-        return str(icon.write_bmp_icon(DATA_DIR / "panel.ico"))
-    except Exception:
-        return None
 
 
 def _native():
@@ -57,7 +48,8 @@ def _native():
         storage = DATA_DIR / "webview"
         storage.mkdir(parents=True, exist_ok=True)
         webview.create_window(TITLE, _url(), width=WIDTH, height=HEIGHT, min_size=(900, 600), text_select=True)
-        webview.start(storage_path=str(storage), private_mode=False, icon=_taskbar_identity())
+        _taskbar_identity()
+        webview.start(storage_path=str(storage), private_mode=False)
         return True
     except Exception:
         return False
